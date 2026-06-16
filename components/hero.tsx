@@ -3,7 +3,7 @@
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion"
 import Link from "next/link"
 import { useEffect, useRef, useState } from "react"
-import { ArrowRight, BadgeCheck, Gauge, MessageCircle, ShieldCheck, ZoomIn, ZoomOut } from "lucide-react"
+import { ArrowRight, BadgeCheck, Gauge, Layers, MessageCircle, ShieldCheck, ZoomIn, ZoomOut } from "lucide-react"
 import * as THREE from "three"
 import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader.js"
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js"
@@ -705,30 +705,10 @@ export function HeroMain() {
             />
           </div>
 
-          {/* ── Capacity callout — leader-line arrow annotation ── */}
-          <motion.div
-            initial={prefersReduced ? false : { opacity: 0, x: 18, filter: "blur(4px)" }}
-            animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
-            transition={prefersReduced ? {} : { delay: 1.6, duration: 0.55, ease: _EASE }}
-            className="absolute right-0 top-[7%] z-30 hidden md:block"
-          >
-            {/* Label box */}
-            <div className="rounded-xl border border-[#315cff]/30 bg-white/90 px-4 py-2.5 shadow-md backdrop-blur dark:border-white/14 dark:bg-[#06111f]/90">
-              <div className="font-mono text-[7.5px] uppercase tracking-[0.18em] text-[#8a9db5] dark:text-white/32">هذا الخزان</div>
-              <div className="font-mono text-[15px] font-black leading-none text-[#315cff] dark:text-[#5c7cff]">10,000 L</div>
-            </div>
-            {/* Leader line + arrowhead pointing down toward the tank */}
-            <div className="ml-5 mt-0.5 flex flex-col items-center">
-              <div className="h-16 w-px bg-gradient-to-b from-[#315cff]/55 to-[#315cff]/15" />
-              <svg width="12" height="7" viewBox="0 0 12 7" fill="none" aria-hidden>
-                <path d="M6 7 L0 0 L12 0 Z" fill="rgba(49,92,255,0.6)" />
-              </svg>
-            </div>
-          </motion.div>
-
           {/* Floating spec badges */}
-          <SpecBadge icon={Gauge}       label="16 BAR"    sub="Working Pressure" className="absolute left-0 top-[30%] hidden md:flex" delay={1.0} reduced={!!prefersReduced} />
-          <SpecBadge icon={ShieldCheck} label="ISO 16528" sub="International Std" className="absolute right-0 top-[26%] hidden md:flex" delay={1.3} reduced={!!prefersReduced} />
+          <SpecBadge icon={Layers}      label="10,000 L"  sub="Max Capacity"      className="absolute right-0 top-[8%]   hidden md:flex" delay={0.8} reduced={!!prefersReduced} />
+          <SpecBadge icon={Gauge}       label="16 BAR"    sub="Working Pressure"  className="absolute left-0 top-[30%]  hidden md:flex" delay={1.0} reduced={!!prefersReduced} />
+          <SpecBadge icon={ShieldCheck} label="ISO 16528" sub="International Std" className="absolute right-0 top-[34%] hidden md:flex" delay={1.3} reduced={!!prefersReduced} />
           <SpecBadge icon={BadgeCheck}  label="CE / PED"  sub="EU Certified"      className="absolute left-0 bottom-[26%] hidden md:flex" delay={1.6} reduced={!!prefersReduced} />
 
           {/* Mascot combo 360 — slides up, spins, disappears */}
