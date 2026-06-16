@@ -5,7 +5,9 @@ export const en = {
     title2: "The Value of Quality",
     title3: "Your Tank, Your Way",
     description:
-      "Over 15 years of professional manufacturing — air tanks and pressure vessels tested at 63 bar, certified to CE/PED and ISO 16528, and export-ready for the Middle East, Africa, and Europe.",
+      "Tested to 63 bar. Certified to CE/PED and ISO 16528. Built in Egypt, trusted by industrial buyers across three continents — since 2009.",
+    description_main:
+      "From 50 L to 10,000 L, we engineer every pressure vessel to your exact specification — custom-built, hydrostatically tested, and certified before it ships.",
     cta_quote: "Request a Quote",
     cta_products: "Explore Products",
     cta_whatsapp: "WhatsApp Support",

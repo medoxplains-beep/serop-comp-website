@@ -604,7 +604,7 @@ export function HeroMain() {
 
             {/* Description */}
             <motion.p variants={staggerItem} className="mt-6 max-w-[440px] text-[15.5px] leading-relaxed text-[#526173] dark:text-white/52">
-              {dict.hero.description}
+              {dict.hero.description_main}
             </motion.p>
 
             {/* CTAs */}
