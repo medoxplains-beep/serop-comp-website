@@ -20,11 +20,11 @@ const TANKS = products
   .sort((a, b) => a.capacityL - b.capacityL)
   .map((p) => ({ src: p.image, label: p.capacity }))
 
-const SCAN_DUR   = 2.2   // seconds â€” wipe travel time
-const HOLD_DUR   = 3200  // ms â€” hold time between transitions
-const INIT_DELAY = 5000  // ms â€” wait after page load before first wipe
+const SCAN_DUR   = 2.2   // seconds â€" wipe travel time
+const HOLD_DUR   = 3200  // ms â€" hold time between transitions
+const INIT_DELAY = 5000  // ms â€" wait after page load before first wipe
 
-// â”€â”€ Spec badge â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// â"€â"€ Spec badge â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
 function SpecBadge({ icon: Icon, label, sub, delay, reduced }: {
   icon: React.ElementType; label: string; sub: string; delay: number; reduced: boolean
 }) {
@@ -52,12 +52,12 @@ export function HeroCinematic() {
   const prefersReduced   = useReducedMotion()
   const isAr = locale === "ar"
 
-  // â”€â”€ Wipe-transition state â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // â"€â"€ Wipe-transition state â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
   const [step,     setStep]     = useState(0)
   const [isWiping, setIsWiping] = useState(false)
   const wipeTimerRef            = useRef<ReturnType<typeof setTimeout> | null>(null)
 
-  // â”€â”€ Mascot letter-run state â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // â"€â"€ Mascot letter-run state â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
   const [mascotRunning, setMascotRunning] = useState(false)
   const [activeLetter,  setActiveLetter]  = useState(-1)
   const mascotTimers    = useRef<ReturnType<typeof setTimeout>[]>([])
@@ -70,11 +70,11 @@ export function HeroCinematic() {
 
     const runOnce = () => {
       clearAll()
-      // Measure actual text width â†’ stop mascot center at the last "P"
+      // Measure actual text width â†' stop mascot center at the last "P"
       const cw = titleContainerRef.current?.offsetWidth ?? 700
       mascotEndX.current = cw - MASCOT_W / 2
       setMascotRunning(true)
-      const DUR = 7000 // slower run â€” 7 s
+      const DUR = 7000 // slower run â€" 7 s
       SEROP_LETTERS.forEach((char, i) => {
         if (char === " ") return
         const t = (i / (SEROP_LETTERS.length - 1)) * DUR
@@ -99,7 +99,7 @@ export function HeroCinematic() {
   const current = step % TANKS.length
   const next    = (step + 1) % TANKS.length
 
-  // â”€â”€ Timer: when wipe completes, advance step, schedule next wipe â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // â"€â"€ Timer: when wipe completes, advance step, schedule next wipe â"€â"€â"€â"€â"€â"€â"€â"€â"€
   useEffect(() => {
     if (!isWiping || prefersReduced) return
     const t = setTimeout(() => {
@@ -109,7 +109,7 @@ export function HeroCinematic() {
     return () => clearTimeout(t)
   }, [isWiping, prefersReduced])
 
-  // â”€â”€ After each wipe completes (step changes), hold then wipe again â”€â”€â”€â”€â”€â”€â”€
+  // â"€â"€ After each wipe completes (step changes), hold then wipe again â"€â"€â"€â"€â"€â"€â"€
   const prevStep = useRef(0)
   useEffect(() => {
     if (step === 0) return   // skip mount
@@ -119,7 +119,7 @@ export function HeroCinematic() {
     return () => { if (wipeTimerRef.current) clearTimeout(wipeTimerRef.current) }
   }, [step])
 
-  // â”€â”€ Initial delay before first wipe â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // â"€â"€ Initial delay before first wipe â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
   useEffect(() => {
     if (prefersReduced) return
     wipeTimerRef.current = setTimeout(() => setIsWiping(true), INIT_DELAY)
@@ -132,7 +132,7 @@ export function HeroCinematic() {
       className="relative isolate flex min-h-screen flex-col items-center overflow-hidden bg-[#eef9ff] dark:bg-[#06111f]"
       dir={isAr ? "rtl" : "ltr"}
     >
-      {/* â”€â”€ Backgrounds â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+      {/* â"€â"€ Backgrounds â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ */}
       <div className="pointer-events-none absolute inset-0 dark:hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_55%_at_50%_65%,rgba(49,92,255,0.07),transparent_60%)]" />
         <div className="absolute inset-0 opacity-[0.035] [background-image:linear-gradient(rgba(49,92,255,0.6)_1px,transparent_1px),linear-gradient(90deg,rgba(49,92,255,0.6)_1px,transparent_1px)] [background-size:60px_60px]" />
@@ -144,12 +144,12 @@ export function HeroCinematic() {
         <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-[#06111f] to-transparent" />
       </div>
 
-      <div className=”relative z-10 flex w-full flex-1 flex-col items-center px-6 pb-6 pt-24 text-center”>
+      <div className="relative z-10 flex w-full flex-1 flex-col items-center px-6 pb-6 pt-24 text-center">
 
         {/* ── Header block — shrinks to its content, never grows ── */}
-        <div className=”shrink-0”>
+        <div className="shrink-0">
 
-        {/* â”€â”€ Badge â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+        {/* â"€â"€ Badge â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ */}
         <motion.div
           initial={prefersReduced ? false : { opacity: 0, y: 20, filter: "blur(6px)" }}
           animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
@@ -162,7 +162,7 @@ export function HeroCinematic() {
           </span>
         </motion.div>
 
-        {/* â”€â”€ "WELCOME" â€” neon pulse â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+        {/* â"€â"€ "WELCOME" â€" neon pulse â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ */}
         <motion.div
           initial={prefersReduced ? false : { opacity: 0, y: 18, filter: "blur(8px)" }}
           animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
@@ -201,7 +201,7 @@ export function HeroCinematic() {
           <div className="h-px w-12 bg-gradient-to-l from-transparent to-[#315cff]/70 sm:w-20" />
         </motion.div>
 
-        {/* â”€â”€ Title â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+        {/* â"€â"€ Title â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ */}
         <motion.div
           initial={prefersReduced ? false : { opacity: 0, y: 45, filter: "blur(10px)" }}
           animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
@@ -209,7 +209,7 @@ export function HeroCinematic() {
         >
           <h1 className="font-display font-black tracking-tight">
 
-            {/* â”€â”€ "SEROP COMP" â€” mascot runs in front of these letters â”€â”€ */}
+            {/* â"€â"€ "SEROP COMP" â€" mascot runs in front of these letters â"€â"€ */}
             <div ref={titleContainerRef} className="relative inline-block" dir="ltr">
               <span className="block whitespace-nowrap text-[clamp(2rem,7.5vw,8.5rem)] leading-[0.93] text-foreground dark:text-white">
                 {SEROP_LETTERS.map((char, i) => (
@@ -271,7 +271,7 @@ export function HeroCinematic() {
 
 
         {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-            TANK CONTAINER â€” Wipe transition lives here
+            TANK CONTAINER â€" Wipe transition lives here
         â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
         </div>{/* end header */}
         <div className="relative mt-2 w-full flex-1 min-h-[280px] max-w-[300px] sm:max-w-[420px] lg:max-w-[560px]">
@@ -279,7 +279,7 @@ export function HeroCinematic() {
           {/* Ambient glow */}
           <div className="pointer-events-none absolute inset-0 scale-75 rounded-full bg-[radial-gradient(circle,rgba(49,92,255,0.18),transparent_60%)] blur-2xl dark:bg-[radial-gradient(circle,rgba(49,92,255,0.28),transparent_60%)]" />
 
-          {/* â”€â”€ Layer A: incoming tank â€” revealed topâ†’down via clipPath â”€â”€ */}
+          {/* â"€â"€ Layer A: incoming tank â€" revealed topâ†'down via clipPath â"€â"€ */}
           {/* clipPath inset(top right bottom left)
               inset(0 0 100% 0) = fully hidden (100% clipped from bottom)
               inset(0 0   0% 0) = fully visible                           */}
@@ -308,7 +308,7 @@ export function HeroCinematic() {
             />
           </motion.div>
 
-          {/* â”€â”€ Layer B: outgoing tank â€” wiped away topâ†’down via clipPath â”€â”€ */}
+          {/* â"€â"€ Layer B: outgoing tank â€" wiped away topâ†'down via clipPath â"€â"€ */}
           {/* inset(0%   0 0 0) = fully visible (0% clipped from top)
               inset(100% 0 0 0) = fully hidden  (100% clipped from top)   */}
           <motion.div
@@ -336,7 +336,7 @@ export function HeroCinematic() {
             />
           </motion.div>
 
-          {/* â”€â”€ Wipe scan line + glow â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+          {/* â"€â"€ Wipe scan line + glow â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ */}
           {isWiping && !prefersReduced && (
             <motion.div
               key={`wipe-${step}`}
@@ -376,7 +376,7 @@ export function HeroCinematic() {
             </motion.div>
           )}
 
-          {/* â”€â”€ Idle scan loop (when NOT wiping) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+          {/* â"€â"€ Idle scan loop (when NOT wiping) â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ */}
           {!isWiping && !prefersReduced && (
             <>
               <motion.div
