@@ -6,11 +6,11 @@ import Image from "next/image"
 
 // ── أضف صور الشركة هنا في /public/images/gallery/ ──────────────────────────
 const SLIDES = [
-  { src: "/images/gallery/01.jpg", bg: "from-[#04080f] via-[#071428] to-[#0a1a3a]" },
-  { src: "/images/gallery/02.jpg", bg: "from-[#060d1e] via-[#0c1e3c] to-[#071530]" },
-  { src: "/images/gallery/03.jpg", bg: "from-[#04111f] via-[#082840] to-[#0a1e38]" },
-  { src: "/images/gallery/04.jpg", bg: "from-[#0b1426] via-[#112048] to-[#0d1c3e]" },
-  { src: "/images/gallery/05.jpg", bg: "from-[#050e1d] via-[#0a1c36] to-[#081628]" },
+  { src: "/images/gallery/01.webp", bg: "from-[#04080f] via-[#071428] to-[#0a1a3a]" },
+  { src: "/images/gallery/02.webp", bg: "from-[#060d1e] via-[#0c1e3c] to-[#071530]" },
+  { src: "/images/gallery/03.jpg",  bg: "from-[#04111f] via-[#082840] to-[#0a1e38]" },
+  { src: "/images/gallery/04.webp", bg: "from-[#0b1426] via-[#112048] to-[#0d1c3e]" },
+  { src: "/images/gallery/05.jpg",  bg: "from-[#050e1d] via-[#0a1c36] to-[#081628]" },
 ]
 
 // ── Progress dot ────────────────────────────────────────────────────────────
