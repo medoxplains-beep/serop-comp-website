@@ -24,7 +24,7 @@ export const en = {
       pressure_label: "Max Pressure",
       certified_label: "Certified",
       compliant_label: "Compliant",
-      pressure_value: "16 BAR",
+      pressure_value: "48 BAR",
       export_value: "EXPORT",
       export_label: "Worldwide",
     },

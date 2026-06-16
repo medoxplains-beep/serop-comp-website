@@ -707,7 +707,7 @@ export function HeroMain() {
 
           {/* Floating spec badges */}
           <SpecBadge icon={Layers}      label="10,000 L"  sub="Max Capacity"      className="absolute right-0 top-[8%]   hidden md:flex" delay={0.8} reduced={!!prefersReduced} />
-          <SpecBadge icon={Gauge}       label="16 BAR"    sub="Working Pressure"  className="absolute left-0 top-[30%]  hidden md:flex" delay={1.0} reduced={!!prefersReduced} />
+          <SpecBadge icon={Gauge}       label="48 BAR"    sub="Working Pressure"  className="absolute left-0 top-[30%]  hidden md:flex" delay={1.0} reduced={!!prefersReduced} />
           <SpecBadge icon={ShieldCheck} label="ISO 16528" sub="International Std" className="absolute right-0 top-[34%] hidden md:flex" delay={1.3} reduced={!!prefersReduced} />
           <SpecBadge icon={BadgeCheck}  label="CE / PED"  sub="EU Certified"      className="absolute left-0 bottom-[26%] hidden md:flex" delay={1.6} reduced={!!prefersReduced} />
 

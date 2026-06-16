@@ -26,7 +26,7 @@ export const ar: Dictionary = {
       pressure_label: "أقصى ضغط",
       certified_label: "معتمد",
       compliant_label: "مطابق",
-      pressure_value: "16 بار",
+      pressure_value: "48 بار",
       export_value: "تصدير",
       export_label: "عالمي",
     },
@@ -132,7 +132,7 @@ export const ar: Dictionary = {
 
   stats: {
     years: "سنوات منذ التأسيس",
-    vessels: "وعاء تم توريده",
+    vessels: "خزان تم توريده",
     countries: "دول تصدير",
     pressure: "أعلى ضغط اختبار",
   },

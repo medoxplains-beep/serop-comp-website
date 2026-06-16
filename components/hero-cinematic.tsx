@@ -428,7 +428,7 @@ export function HeroCinematic() {
             <SpecBadge icon={ShieldCheck} label="ISO 16528" sub="International Std" delay={1.6} reduced={!!prefersReduced} />
           </div>
           <div className="absolute bottom-[34%] right-[calc(100%+1.5rem)] hidden lg:block">
-            <SpecBadge icon={Gauge}       label="11 BAR"    sub="Working Pressure"  delay={1.8} reduced={!!prefersReduced} />
+            <SpecBadge icon={Gauge}       label="48 BAR"    sub="Working Pressure"  delay={1.8} reduced={!!prefersReduced} />
           </div>
         </div>
 
