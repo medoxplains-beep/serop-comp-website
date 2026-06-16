@@ -593,7 +593,7 @@ export function HeroMain() {
               initial={prefersReduced ? false : { opacity: 0, y: 28, filter: "blur(8px)" }}
               animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
               transition={{ delay: 1.05, duration: 0.75, ease: _EASE }}
-              className="mt-2 block text-[clamp(1.1rem,1.9vw,2.6rem)] leading-[1.2] tracking-wide bg-gradient-to-r from-[#315cff] via-[#00b8ff] to-[#18d4ff] bg-clip-text text-transparent"
+              className="mt-2 block text-left text-[clamp(1.1rem,1.9vw,2.6rem)] leading-[1.2] tracking-wide bg-gradient-to-r from-[#315cff] via-[#00b8ff] to-[#18d4ff] bg-clip-text text-transparent"
             >
               {dict.hero.title3}
             </motion.span>
