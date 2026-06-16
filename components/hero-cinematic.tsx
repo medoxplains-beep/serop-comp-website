@@ -144,7 +144,10 @@ export function HeroCinematic() {
         <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-[#06111f] to-transparent" />
       </div>
 
-      <div className="relative z-10 flex w-full flex-1 flex-col items-center justify-start px-6 pb-4 pt-24 text-center">
+      <div className=”relative z-10 flex w-full flex-1 flex-col items-center px-6 pb-6 pt-24 text-center”>
+
+        {/* ── Header block — shrinks to its content, never grows ── */}
+        <div className=”shrink-0”>
 
         {/* â”€â”€ Badge â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
         <motion.div
@@ -270,7 +273,8 @@ export function HeroCinematic() {
         {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
             TANK CONTAINER â€” Wipe transition lives here
         â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
-        <div className="-mt-6 relative h-[min(420px,48vh)] w-full max-w-[300px] sm:h-[min(500px,52vh)] sm:max-w-[420px] lg:h-[min(580px,55vh)] lg:max-w-[520px]">
+        </div>{/* end header */}
+        <div className="relative mt-2 w-full flex-1 min-h-[280px] max-w-[300px] sm:max-w-[420px] lg:max-w-[560px]">
 
           {/* Ambient glow */}
           <div className="pointer-events-none absolute inset-0 scale-75 rounded-full bg-[radial-gradient(circle,rgba(49,92,255,0.18),transparent_60%)] blur-2xl dark:bg-[radial-gradient(circle,rgba(49,92,255,0.28),transparent_60%)]" />
@@ -411,7 +415,7 @@ export function HeroCinematic() {
             initial={{ opacity: 0, y: 6 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, delay: 0.15 }}
-            className="absolute -bottom-4 left-1/2 z-20 -translate-x-1/2 rounded-full border border-[#315cff]/25 bg-background/80 px-4 py-1.5 font-mono text-[11px] font-bold uppercase tracking-widest text-[#315cff] shadow backdrop-blur dark:bg-[#06111f]/80 dark:text-[#5c7cff]"
+            className="absolute bottom-3 left-1/2 z-20 -translate-x-1/2 rounded-full border border-[#315cff]/25 bg-background/80 px-4 py-1.5 font-mono text-[11px] font-bold uppercase tracking-widest text-[#315cff] shadow backdrop-blur dark:bg-[#06111f]/80 dark:text-[#5c7cff]"
           >
             {TANKS[current].label}
           </motion.div>
