@@ -1,3 +1,4 @@
+import { BrandGallery } from "@/components/brand-gallery"
 import { HeroCinematic } from "@/components/hero-cinematic"
 import { HeroMain } from "@/components/hero"
 import { ProductShowcase } from "@/components/product-showcase"
@@ -12,6 +13,7 @@ import { CTABanner } from "@/components/cta-banner"
 export default function HomePage() {
   return (
     <>
+      <BrandGallery />
       <HeroCinematic />
       <HeroMain />
       <ProductShowcase />
