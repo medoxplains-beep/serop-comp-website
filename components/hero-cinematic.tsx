@@ -1,10 +1,9 @@
 ﻿﻿"use client"
 
 import { motion, useReducedMotion, AnimatePresence } from "framer-motion"
-import Link from "next/link"
 import Image from "next/image"
 import { useEffect, useRef, useState } from "react"
-import { ArrowRight, BadgeCheck, Gauge, MessageCircle, ShieldCheck } from "lucide-react"
+import { BadgeCheck, Gauge, ShieldCheck } from "lucide-react"
 import { useI18n } from "@/components/i18n-provider"
 import { products } from "@/lib/products"
 
@@ -145,7 +144,7 @@ export function HeroCinematic() {
         <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-[#06111f] to-transparent" />
       </div>
 
-      <div className="relative z-10 flex w-full flex-1 flex-col items-center justify-start px-6 pb-10 pt-24 text-center">
+      <div className="relative z-10 flex w-full flex-1 flex-col items-center justify-start px-6 pb-4 pt-24 text-center">
 
         {/* â”€â”€ Badge â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
         <motion.div
@@ -271,7 +270,7 @@ export function HeroCinematic() {
         {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
             TANK CONTAINER â€” Wipe transition lives here
         â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
-        <div className="-mt-6 relative h-[min(360px,40vh)] w-full max-w-[280px] sm:h-[min(440px,42vh)] sm:max-w-[380px] lg:h-[min(500px,42vh)] lg:max-w-[480px]">
+        <div className="-mt-6 relative h-[min(420px,48vh)] w-full max-w-[300px] sm:h-[min(500px,52vh)] sm:max-w-[420px] lg:h-[min(580px,55vh)] lg:max-w-[520px]">
 
           {/* Ambient glow */}
           <div className="pointer-events-none absolute inset-0 scale-75 rounded-full bg-[radial-gradient(circle,rgba(49,92,255,0.18),transparent_60%)] blur-2xl dark:bg-[radial-gradient(circle,rgba(49,92,255,0.28),transparent_60%)]" />
@@ -429,42 +428,6 @@ export function HeroCinematic() {
           </div>
         </div>
 
-        {/* â”€â”€ Description + CTAs â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
-        <motion.div
-          initial={prefersReduced ? false : { opacity: 0, y: 28, filter: "blur(8px)" }}
-          animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-          transition={prefersReduced ? {} : { delay: 1.8, duration: 0.8, ease: EASE }}
-          className="mt-8 flex w-full flex-col items-center"
-        >
-          <p className="mx-auto max-w-[480px] text-[15px] leading-relaxed text-muted-foreground dark:text-white/42">
-            {dict.hero.description}
-          </p>
-
-          <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
-            <Link
-              href="/request-quote"
-              className="group inline-flex items-center gap-3 rounded-full bg-gradient-to-r from-[#315cff] to-[#00a7ff] px-8 py-3.5 text-sm font-bold text-white shadow-2xl shadow-[#315cff]/30 transition hover:-translate-y-0.5 hover:brightness-110"
-            >
-              {dict.hero.cta_quote}
-              <ArrowRight className="size-4 transition group-hover:translate-x-1" />
-            </Link>
-            <Link
-              href="/products"
-              className="inline-flex items-center gap-3 rounded-full border border-border/60 bg-background/60 px-8 py-3.5 text-sm font-bold text-foreground backdrop-blur transition hover:-translate-y-0.5 hover:border-[#315cff]/40 dark:border-white/14 dark:bg-white/[0.055] dark:text-white"
-            >
-              {dict.hero.cta_products}
-            </Link>
-            <a
-              href="https://wa.me/201151988818"
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center gap-2.5 text-sm font-semibold text-muted-foreground transition hover:text-foreground dark:text-white/40 dark:hover:text-white/70"
-            >
-              <MessageCircle className="size-4 text-[#14e27d]" />
-              {dict.hero.cta_whatsapp}
-            </a>
-          </div>
-        </motion.div>
       </div>
 
       {/* Scroll indicator */}
