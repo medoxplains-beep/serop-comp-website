@@ -271,7 +271,7 @@ export function HeroCinematic() {
         {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
             TANK CONTAINER â€” Wipe transition lives here
         â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
-        <div className="-mt-6 relative h-[420px] w-full max-w-[340px] sm:h-[700px] sm:max-w-[480px] lg:h-[880px] lg:max-w-[600px]">
+        <div className="-mt-6 relative h-[min(360px,40vh)] w-full max-w-[280px] sm:h-[min(440px,42vh)] sm:max-w-[380px] lg:h-[min(500px,42vh)] lg:max-w-[480px]">
 
           {/* Ambient glow */}
           <div className="pointer-events-none absolute inset-0 scale-75 rounded-full bg-[radial-gradient(circle,rgba(49,92,255,0.18),transparent_60%)] blur-2xl dark:bg-[radial-gradient(circle,rgba(49,92,255,0.28),transparent_60%)]" />
