@@ -1,4 +1,4 @@
-import type { Metadata } from "next"
+﻿import type { Metadata } from "next"
 import Image from "next/image"
 import { FlaskConical, Layers, Settings2, Wrench } from "lucide-react"
 import { CTABanner } from "@/components/cta-banner"
@@ -52,7 +52,7 @@ export default async function RDPage() {
             </div>
             <div className="relative aspect-[4/5] overflow-hidden rounded-2xl border border-border/60 bg-card/30">
               <Image
-                src="/images/tanks/vertical-1000-blue.png"
+                src="/images/tanks/vertical-1000-blue.webp"
                 alt="SEROP COMP 1000L vertical pressure vessel"
                 fill
                 sizes="(max-width: 1024px) 100vw, 50vw"

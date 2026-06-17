@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import { motion } from "framer-motion"
 import Image from "next/image"
@@ -77,7 +77,7 @@ export function Export() {
 
                 {/* Real world map image */}
                 <Image
-                  src="/images/world-map.png"
+                  src="/images/world-map.webp"
                   alt="World export markets map"
                   fill
                   sizes="(max-width: 1024px) 100vw, 600px"

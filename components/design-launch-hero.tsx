@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import { type ComponentType, type SVGProps, useEffect, useMemo, useState } from "react"
 import Image from "next/image"
@@ -34,17 +34,17 @@ type SocialLink = {
 
 const DESIGN_SLIDES: DesignSlide[] = [
   {
-    src: "/images/designs/engineering-design-01.png",
+    src: "/images/designs/engineering-design-01.webp",
     alt: "SEROP COMP red horizontal receiver export concept",
     focus: "center 50%",
   },
   {
-    src: "/images/designs/engineering-design-02.png",
+    src: "/images/designs/engineering-design-02.webp",
     alt: "SEROP COMP factory engineering concept",
     focus: "center 54%",
   },
   {
-    src: "/images/designs/engineering-design-03.png",
+    src: "/images/designs/engineering-design-03.webp",
     alt: "SEROP COMP workshop quality inspection concept",
     focus: "center 50%",
   },

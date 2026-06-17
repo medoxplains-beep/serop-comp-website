@@ -28,7 +28,7 @@ export const posts: Post[] = [
     readTimeAr: "6 Ø¯Ù‚Ø§Ø¦Ù‚ Ù‚Ø±Ø§Ø¡Ø©",
     category: "Engineering",
     categoryAr: "Ø§Ù„Ù‡Ù†Ø¯Ø³Ø©",
-    image: "/images/tanks/vertical-3000-blue.png",
+    image: "/images/tanks/vertical-3000-blue.webp",
     content: [
       "Choosing an air receiver is not only about volume. The correct tank must match compressor output, working pressure, installation space, operating environment, and documentation requirements.",
       "For standard compressed-air systems, SEROP COMP manufactures vertical and horizontal receivers with common working pressure around 11 bar, plus custom configurations for higher-pressure applications up to 42 bar depending on specification.",
@@ -82,7 +82,7 @@ export const posts: Post[] = [
     readTimeAr: "5 Ø¯Ù‚Ø§Ø¦Ù‚ Ù‚Ø±Ø§Ø¡Ø©",
     category: "Export",
     categoryAr: "Ø§Ù„ØªØµØ¯ÙŠØ±",
-    image: "/images/tanks/vertical-2000-blue.png",
+    image: "/images/tanks/vertical-2000-blue.webp",
     content: [
       "Egypt has a strong position for industrial export thanks to manufacturing zones such as 10th of Ramadan City, access to regional ports, and supply chains that serve the Middle East and Africa.",
       "For pressure vessels, export readiness depends on more than the product itself. Buyers need correct packing, product identification, pressure-test documents, certificates, and clear communication before shipment.",

@@ -61,7 +61,7 @@ export function Engineering() {
             className="group relative aspect-[3/2] sm:aspect-[4/5] w-full overflow-hidden rounded-2xl border border-border/60 shadow-3d cursor-default"
           >
             <Image
-              src="/images/tanks/vertical-2000-blue.png"
+              src="/images/tanks/vertical-2000-blue.webp"
               alt="SEROP COMP pressure vessel welding"
               fill
               sizes="(max-width: 1024px) 100vw, 50vw"

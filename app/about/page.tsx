@@ -53,7 +53,7 @@ export default async function AboutPage() {
         <div className="mx-auto grid max-w-7xl grid-cols-1 gap-12 px-6 lg:grid-cols-2 lg:items-center lg:gap-16">
           <div className="relative aspect-[4/5] overflow-hidden rounded-2xl border border-border/60">
             <Image
-              src="/images/tanks/vertical-900-blue.png"
+              src="/images/tanks/vertical-900-blue.webp"
               alt="SEROP COMP factory floor"
               fill
               sizes="(max-width: 1024px) 100vw, 50vw"

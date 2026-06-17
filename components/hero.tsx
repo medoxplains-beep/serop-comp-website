@@ -726,6 +726,7 @@ export function HeroMain() {
                   autoPlay
                   muted
                   playsInline
+                  preload="none"
                   className="w-36 lg:w-44"
                   style={{ filter: "brightness(1.45) contrast(1.05)" }}
                 />

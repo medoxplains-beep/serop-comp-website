@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import Link from "next/link"
 import Image from "next/image"
@@ -66,7 +66,7 @@ export function Footer() {
           >
             <Link href="/" aria-label="SEROP COMP" className="inline-block">
               <Image
-                src="/images/serop-logo-transparent.png"
+                src="/images/serop-logo-transparent.webp"
                 alt="SEROP COMP"
                 width={220}
                 height={100}

@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import Link from "next/link"
 import Image from "next/image"
@@ -117,7 +117,7 @@ export function Header() {
         {/* Logo */}
         <Link href="/" className="flex items-center" aria-label="SEROP COMP">
           <Image
-            src="/images/serop-logo-transparent.png"
+            src="/images/serop-logo-transparent.webp"
             alt="SEROP COMP"
             width={210}
             height={96}

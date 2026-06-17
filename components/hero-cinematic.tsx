@@ -253,6 +253,7 @@ export function HeroCinematic() {
                       muted
                       playsInline
                       loop
+                      preload="none"
                       style={{ width: "100%", height: "100%", objectFit: "contain", filter: "brightness(1.45) contrast(1.05)" }}
                     >
                       <source src="/mascot/walk2.webm" type="video/webm" />

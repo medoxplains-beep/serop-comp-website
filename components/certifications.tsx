@@ -64,6 +64,7 @@ export function Certifications() {
                     loop
                     muted
                     playsInline
+                    preload="none"
                     className="w-[22rem] xl:w-[26rem]"
                     style={{ filter: "brightness(1.45) contrast(1.05)" }}
                   />

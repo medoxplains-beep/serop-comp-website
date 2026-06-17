@@ -275,6 +275,7 @@ export function ProductShowcase() {
               loop
               muted
               playsInline
+              preload="none"
               className="w-64 xl:w-80"
               style={{ filter: "brightness(1.45) contrast(1.05)" }}
             />
