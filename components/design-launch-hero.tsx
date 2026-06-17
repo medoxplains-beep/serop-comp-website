@@ -137,6 +137,13 @@ export function DesignLaunchHero() {
     return () => window.clearInterval(timer)
   }, [])
 
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      document.getElementById("hero-cinematic")?.scrollIntoView({ behavior: "smooth" })
+    }, 7000)
+    return () => window.clearTimeout(timer)
+  }, [])
+
   const go = (direction: number) => {
     setActive((index) => (index + direction + DESIGN_SLIDES.length) % DESIGN_SLIDES.length)
   }
@@ -226,7 +233,7 @@ export function DesignLaunchHero() {
             >
               <h1 className="max-w-4xl font-display text-4xl font-black leading-[0.96] tracking-tight text-[#111b2a] dark:text-white sm:text-5xl">
                 <span className="block">{copy.titleTop}</span>
-                <span className="mt-1 block bg-gradient-to-r from-[#315cff] via-[#008dff] to-[#18d4ff] bg-clip-text text-transparent">
+                <span className="mt-1 block text-3xl font-black sm:text-4xl bg-gradient-to-r from-[#315cff] via-[#008dff] to-[#18d4ff] bg-clip-text text-transparent">
                   {copy.titleAccent}
                 </span>
               </h1>
