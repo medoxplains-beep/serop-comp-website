@@ -62,7 +62,7 @@ export function HeroCinematic() {
   const [activeLetter,  setActiveLetter]  = useState(-1)
   const mascotTimers    = useRef<ReturnType<typeof setTimeout>[]>([])
   const titleContainerRef = useRef<HTMLDivElement>(null)
-  const mascotEndX        = useRef(700)   // updated at runtime from container width
+  const [mascotEndX, setMascotEndX] = useState(700)   // updated at runtime from container width
 
   useEffect(() => {
     if (prefersReduced) return
@@ -72,7 +72,7 @@ export function HeroCinematic() {
       clearAll()
       // Measure actual text width â†' stop mascot center at the last "P"
       const cw = titleContainerRef.current?.offsetWidth ?? 700
-      mascotEndX.current = cw - MASCOT_W / 2
+      setMascotEndX(cw - MASCOT_W / 2)
       setMascotRunning(true)
       const DUR = 7000 // slower run â€" 7 s
       SEROP_LETTERS.forEach((char, i) => {
@@ -93,7 +93,6 @@ export function HeroCinematic() {
 
     const init = setTimeout(runOnce, 5500)
     return () => { clearTimeout(init); clearAll() }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [prefersReduced])
 
   const current = step % TANKS.length
@@ -245,7 +244,7 @@ export function HeroCinematic() {
                       zIndex: 2,
                     }}
                     initial={{ x: -(MASCOT_W + 20) }}
-                    animate={{ x: mascotEndX.current }}
+                    animate={{ x: mascotEndX }}
                     exit={{ opacity: 0 }}
                     transition={{ duration: 7, ease: "linear" }}
                   >
@@ -386,7 +385,7 @@ export function HeroCinematic() {
                     "radial-gradient(ellipse 82% 55% at 50% 50%,rgba(49,92,255,0.38) 0%,rgba(90,150,255,0.18) 55%,transparent 100%)",
                   filter: "blur(10px)",
                 }}
-                animate={{ top: ["0%","108%"], opacity: [0,0.85,0.85,0.85,0] }}
+                animate={{ top: ["0%","6%","54%","101%","108%"], opacity: [0,0.85,0.85,0.85,0] }}
                 transition={{
                   duration: 3.5, repeat: Infinity, repeatDelay: 1.5,
                   ease: "linear", times: [0,0.06,0.5,0.94,1],
@@ -400,7 +399,7 @@ export function HeroCinematic() {
                   boxShadow: "0 0 8px 2px rgba(49,92,255,0.35)",
                   filter: "blur(0.5px)",
                 }}
-                animate={{ top: ["0%","108%"], opacity: [0,1,1,1,0] }}
+                animate={{ top: ["0%","6%","54%","101%","108%"], opacity: [0,1,1,1,0] }}
                 transition={{
                   duration: 3.5, repeat: Infinity, repeatDelay: 1.5,
                   ease: "linear", times: [0,0.06,0.5,0.94,1],
