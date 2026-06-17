@@ -571,11 +571,11 @@ export function HeroMain() {
           </motion.div>
 
           {/* Headline — much larger than HeroCinematic */}
-          <h1 className="font-display font-black tracking-tight">
+          <h1 className="font-display font-black tracking-tight flex flex-wrap items-baseline gap-x-5 gap-y-1">
             <span
               dir="ltr"
               aria-label={dict.hero.title1}
-              className="relative block whitespace-nowrap text-[clamp(1.9rem,3.4vw,5.2rem)] leading-[1] text-[#060f1e] dark:text-white"
+              className="relative whitespace-nowrap text-[clamp(1.9rem,3.4vw,5.2rem)] leading-[1] text-[#060f1e] dark:text-white"
             >
               {dict.hero.title1.split("").map((char, i) => (
                 <motion.span
@@ -593,7 +593,7 @@ export function HeroMain() {
               initial={prefersReduced ? false : { opacity: 0, y: 28, filter: "blur(8px)" }}
               animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
               transition={{ delay: 1.05, duration: 0.75, ease: _EASE }}
-              className="mt-2 block text-left text-[clamp(1.1rem,1.9vw,2.6rem)] leading-[1.2] tracking-wide bg-gradient-to-r from-[#315cff] via-[#00b8ff] to-[#18d4ff] bg-clip-text text-transparent"
+              className="text-[clamp(1.1rem,1.9vw,2.6rem)] leading-[1.2] tracking-wide bg-gradient-to-r from-[#315cff] via-[#00b8ff] to-[#18d4ff] bg-clip-text text-transparent"
             >
               {dict.hero.title3}
             </motion.span>

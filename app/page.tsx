@@ -1,4 +1,4 @@
-import { BrandGallery } from "@/components/brand-gallery"
+import { DesignLaunchHero } from "@/components/design-launch-hero"
 import { HeroCinematic } from "@/components/hero-cinematic"
 import { HeroMain } from "@/components/hero"
 import { ProductShowcase } from "@/components/product-showcase"
@@ -13,7 +13,7 @@ import { CTABanner } from "@/components/cta-banner"
 export default function HomePage() {
   return (
     <>
-      <BrandGallery />
+      <DesignLaunchHero />
       <HeroCinematic />
       <HeroMain />
       <ProductShowcase />

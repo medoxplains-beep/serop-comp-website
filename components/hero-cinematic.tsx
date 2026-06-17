@@ -167,7 +167,7 @@ export function HeroCinematic() {
           initial={prefersReduced ? false : { opacity: 0, y: 18, filter: "blur(8px)" }}
           animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
           transition={prefersReduced ? {} : { delay: 0.7, duration: 1.0, ease: EASE }}
-          className="mb-3 flex items-center gap-5"
+          className="mb-3 flex items-center justify-center gap-5"
         >
           <div className="h-px w-12 bg-gradient-to-r from-transparent to-[#315cff]/70 sm:w-20" />
           <motion.span
