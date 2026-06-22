@@ -11,7 +11,7 @@ import { navLinks } from "@/lib/nav"
 import { useI18n } from "@/components/i18n-provider"
 
 // ── Theme Toggle ──────────────────────────────────────
-function ThemeToggle() {
+function ThemeToggle({ onAfterChange }: { onAfterChange?: () => void }) {
   const { theme, setTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
 
@@ -23,9 +23,13 @@ function ThemeToggle() {
   if (!mounted) return <div className="h-8 w-16 rounded-full bg-muted" />
 
   const isDark = theme === "dark"
+  const toggleTheme = () => {
+    setTheme(isDark ? "light" : "dark")
+    onAfterChange?.()
+  }
 
   return (
-    <button onClick={() => setTheme(isDark ? "light" : "dark")} aria-label="Toggle theme"
+    <button onClick={toggleTheme} aria-label="Toggle theme"
       className="relative flex h-8 w-16 items-center rounded-full border border-border p-1 transition-all"
       style={{
         background: isDark
@@ -61,7 +65,7 @@ function ThemeToggle() {
 }
 
 // ── Language Toggle ───────────────────────────────────
-function LanguageToggle() {
+function LanguageToggle({ onAfterChange }: { onAfterChange?: () => void }) {
   const { locale } = useI18n()
   const router = useRouter()
   const [isPending, startTransition] = useTransition()
@@ -74,10 +78,11 @@ function LanguageToggle() {
       body: JSON.stringify({ locale: next }),
     })
     startTransition(() => router.refresh())
+    onAfterChange?.()
   }
 
   return (
-    <button onClick={toggle} disabled={isPending}
+    <button onClick={toggle} disabled={isPending} aria-label="Toggle language"
       className="flex h-8 items-center gap-1.5 rounded-full border border-border bg-muted px-3 text-xs font-bold text-muted-foreground transition hover:border-primary/50 hover:text-foreground disabled:opacity-50">
       <AnimatePresence mode="wait">
         <motion.span key={locale} initial={{ opacity: 0, y: -5 }} animate={{ opacity: 1, y: 0 }}
@@ -107,7 +112,7 @@ export function Header() {
     href === "/" ? pathname === "/" : pathname.startsWith(href)
 
   return (
-    <header className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
+    <header className={`fixed inset-x-0 top-0 z-[100] transition-all duration-300 ${
       scrolled
         ? "border-b border-white/60 bg-white/55 shadow-sm shadow-[#315cff]/5 backdrop-blur-xl dark:border-white/10 dark:bg-[#06111f]/70"
         : "bg-transparent"
@@ -161,10 +166,13 @@ export function Header() {
       {/* Mobile menu */}
       <AnimatePresence>
         {open && (
-          <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            className="overflow-hidden border-t border-border bg-background/95 backdrop-blur-xl lg:hidden">
-            <nav className="flex flex-col gap-1 p-4">
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
+            className="fixed inset-x-0 bottom-0 top-[88px] z-[110] overflow-y-auto border-t border-border bg-[#eef9ff]/98 shadow-2xl shadow-[#315cff]/15 backdrop-blur-xl dark:bg-[#06111f]/98 lg:hidden">
+            <nav className="flex min-h-full flex-col gap-1 p-5 pb-8">
               {navLinks.map((l) => (
                 <Link key={l.href} href={l.href}
                   onClick={() => setOpen(false)}
@@ -175,8 +183,8 @@ export function Header() {
                 </Link>
               ))}
               <div className="mt-3 flex items-center gap-2 px-2">
-                <ThemeToggle />
-                <LanguageToggle />
+                <ThemeToggle onAfterChange={() => setOpen(false)} />
+                <LanguageToggle onAfterChange={() => setOpen(false)} />
               </div>
               <Link href="/request-quote"
                 onClick={() => setOpen(false)}

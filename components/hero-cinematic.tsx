@@ -51,6 +51,16 @@ export function HeroCinematic() {
   const { locale, dict } = useI18n()
   const prefersReduced   = useReducedMotion()
   const isAr = locale === "ar"
+  const [isMobile, setIsMobile] = useState(false)
+  const reducedMotion = Boolean(prefersReduced || isMobile)
+
+  useEffect(() => {
+    const query = window.matchMedia("(max-width: 767px)")
+    const sync = () => setIsMobile(query.matches)
+    sync()
+    query.addEventListener("change", sync)
+    return () => query.removeEventListener("change", sync)
+  }, [])
 
   // â"€â"€ Wipe-transition state â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
   const [step,     setStep]     = useState(0)
@@ -59,17 +69,19 @@ export function HeroCinematic() {
 
   // â"€â"€ Mascot letter-run state â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
   const [mascotRunning, setMascotRunning] = useState(false)
+  const [mascotVideoFailed, setMascotVideoFailed] = useState(false)
   const [activeLetter,  setActiveLetter]  = useState(-1)
   const mascotTimers    = useRef<ReturnType<typeof setTimeout>[]>([])
   const titleContainerRef = useRef<HTMLDivElement>(null)
   const [mascotEndX, setMascotEndX] = useState(700)   // updated at runtime from container width
 
   useEffect(() => {
-    if (prefersReduced) return
+    if (reducedMotion) return
     const clearAll = () => { mascotTimers.current.forEach(clearTimeout); mascotTimers.current = [] }
 
     const runOnce = () => {
       clearAll()
+      setMascotVideoFailed(false)
       // Measure actual text width â†' stop mascot center at the last "P"
       const cw = titleContainerRef.current?.offsetWidth ?? 700
       setMascotEndX(cw - MASCOT_W / 2)
@@ -93,20 +105,20 @@ export function HeroCinematic() {
 
     const init = setTimeout(runOnce, 5500)
     return () => { clearTimeout(init); clearAll() }
-  }, [prefersReduced])
+  }, [reducedMotion])
 
   const current = step % TANKS.length
   const next    = (step + 1) % TANKS.length
 
   // â"€â"€ Timer: when wipe completes, advance step, schedule next wipe â"€â"€â"€â"€â"€â"€â"€â"€â"€
   useEffect(() => {
-    if (!isWiping || prefersReduced) return
+    if (!isWiping || reducedMotion) return
     const t = setTimeout(() => {
       setStep(s => s + 1)
       setIsWiping(false)
     }, SCAN_DUR * 1000 + 60)  // +60ms safety margin
     return () => clearTimeout(t)
-  }, [isWiping, prefersReduced])
+  }, [isWiping, reducedMotion])
 
   // â"€â"€ After each wipe completes (step changes), hold then wipe again â"€â"€â"€â"€â"€â"€â"€
   const prevStep = useRef(0)
@@ -120,15 +132,15 @@ export function HeroCinematic() {
 
   // â"€â"€ Initial delay before first wipe â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
   useEffect(() => {
-    if (prefersReduced) return
+    if (reducedMotion) return
     wipeTimerRef.current = setTimeout(() => setIsWiping(true), INIT_DELAY)
     return () => { if (wipeTimerRef.current) clearTimeout(wipeTimerRef.current) }
-  }, [prefersReduced])
+  }, [reducedMotion])
 
   return (
     <section
       id="hero-cinematic"
-      className="relative isolate flex min-h-screen flex-col items-center overflow-hidden bg-[#eef9ff] dark:bg-[#06111f]"
+      className="relative isolate flex min-h-[100svh] flex-col items-center overflow-hidden bg-[#eef9ff] dark:bg-[#06111f]"
       dir={isAr ? "rtl" : "ltr"}
     >
       {/* â"€â"€ Backgrounds â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ */}
@@ -143,16 +155,16 @@ export function HeroCinematic() {
         <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-[#06111f] to-transparent" />
       </div>
 
-      <div className="relative z-10 flex w-full flex-1 flex-col items-center px-6 pb-6 pt-24 text-center">
+      <div className="relative z-10 flex w-full flex-1 flex-col items-center px-4 pb-6 pt-24 text-center sm:px-6">
 
         {/* ── Header block — shrinks to its content, never grows ── */}
         <div className="shrink-0">
 
         {/* â"€â"€ Badge â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ */}
         <motion.div
-          initial={prefersReduced ? false : { opacity: 0, y: 20, filter: "blur(6px)" }}
+          initial={reducedMotion ? false : { opacity: 0, y: 20, filter: "blur(6px)" }}
           animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-          transition={prefersReduced ? {} : { delay: 0.5, duration: 0.7, ease: EASE }}
+          transition={reducedMotion ? {} : { delay: 0.5, duration: 0.7, ease: EASE }}
           className="mb-3"
         >
           <span className="inline-flex items-center gap-2 rounded-full border border-[#315cff]/20 bg-[#315cff]/5 px-4 py-1.5 font-mono text-[10px] uppercase tracking-[0.24em] text-[#315cff]/70 dark:border-white/10 dark:bg-white/[0.055] dark:text-white/50">
@@ -163,15 +175,15 @@ export function HeroCinematic() {
 
         {/* â"€â"€ "WELCOME" â€" neon pulse â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ */}
         <motion.div
-          initial={prefersReduced ? false : { opacity: 0, y: 18, filter: "blur(8px)" }}
+          initial={reducedMotion ? false : { opacity: 0, y: 18, filter: "blur(8px)" }}
           animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-          transition={prefersReduced ? {} : { delay: 0.7, duration: 1.0, ease: EASE }}
-          className="mb-3 flex items-center justify-center gap-5"
+          transition={reducedMotion ? {} : { delay: 0.7, duration: 1.0, ease: EASE }}
+          className="mb-3 flex items-center justify-center gap-3 sm:gap-5"
         >
           <div className="h-px w-12 bg-gradient-to-r from-transparent to-[#315cff]/70 sm:w-20" />
           <motion.span
-            className="font-display text-[clamp(1.5rem,3.2vw,2.8rem)] font-black uppercase leading-none tracking-[0.28em]"
-            animate={prefersReduced ? {} : {
+            className="font-display text-[clamp(1.35rem,8vw,2.8rem)] font-black uppercase leading-none tracking-[0.18em] sm:tracking-[0.28em]"
+            animate={reducedMotion ? {} : {
               opacity: [1, 0.18, 1, 0.22, 1, 0.15, 1],
               filter: [
                 "drop-shadow(0 0 22px rgba(49,92,255,0.55))",
@@ -183,7 +195,7 @@ export function HeroCinematic() {
                 "drop-shadow(0 0 22px rgba(49,92,255,0.55))",
               ],
             }}
-            transition={prefersReduced ? {} : {
+            transition={reducedMotion ? {} : {
               duration: 4.5, delay: 3, repeat: Infinity, repeatDelay: 3,
               ease: "easeInOut",
               times: [0, 0.12, 0.26, 0.38, 0.55, 0.7, 1],
@@ -202,15 +214,15 @@ export function HeroCinematic() {
 
         {/* â"€â"€ Title â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ */}
         <motion.div
-          initial={prefersReduced ? false : { opacity: 0, y: 45, filter: "blur(10px)" }}
+          initial={reducedMotion ? false : { opacity: 0, y: 45, filter: "blur(10px)" }}
           animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-          transition={prefersReduced ? {} : { delay: 0.75, duration: 0.9, ease: EASE }}
+          transition={reducedMotion ? {} : { delay: 0.75, duration: 0.9, ease: EASE }}
         >
           <h1 className="font-display font-black tracking-tight">
 
             {/* â"€â"€ "SEROP COMP" â€" mascot runs in front of these letters â"€â"€ */}
             <div ref={titleContainerRef} className="relative inline-block" dir="ltr">
-              <span className="block whitespace-nowrap text-[clamp(2rem,7.5vw,8.5rem)] leading-[0.93] text-foreground dark:text-white">
+              <span className="block whitespace-nowrap text-[clamp(2.1rem,15vw,8.5rem)] leading-[0.93] text-foreground dark:text-white">
                 {SEROP_LETTERS.map((char, i) => (
                   <motion.span
                     key={i}
@@ -248,22 +260,43 @@ export function HeroCinematic() {
                     exit={{ opacity: 0 }}
                     transition={{ duration: 7, ease: "linear" }}
                   >
-                    <video
-                      autoPlay
-                      muted
-                      playsInline
-                      loop
-                      preload="none"
-                      style={{ width: "100%", height: "100%", objectFit: "contain", filter: "brightness(1.45) contrast(1.05)" }}
-                    >
-                      <source src="/mascot/walk2.webm" type="video/webm" />
-                    </video>
+                    {mascotVideoFailed ? (
+                      <Image
+                        src="/mascot/walk2-poster.jpg"
+                        alt=""
+                        fill
+                        sizes={`${MASCOT_W}px`}
+                        className="object-contain mix-blend-screen"
+                        priority={false}
+                      />
+                    ) : (
+                      <video
+                        autoPlay
+                        muted
+                        playsInline
+                        loop
+                        preload="metadata"
+                        poster="/mascot/walk2-poster.jpg"
+                        aria-hidden="true"
+                        onError={() => setMascotVideoFailed(true)}
+                        style={{
+                          width: "100%",
+                          height: "100%",
+                          objectFit: "contain",
+                          filter: "brightness(1.45) contrast(1.05)",
+                          mixBlendMode: "screen",
+                        }}
+                      >
+                        <source src="/mascot/walk2.webm" type="video/webm" />
+                        <source src="/mascot/walk2.mp4" type="video/mp4" />
+                      </video>
+                    )}
                   </motion.div>
                 )}
               </AnimatePresence>
             </div>
 
-            <span dir="ltr" className="mt-1 block bg-gradient-to-r from-[#315cff] via-[#00b8ff] to-[#18d4ff] bg-clip-text text-[clamp(1.6rem,3.4vw,3.8rem)] leading-[1.2] text-transparent">
+            <span dir="ltr" className="mx-auto mt-1 block max-w-[min(92vw,820px)] bg-gradient-to-r from-[#315cff] via-[#00b8ff] to-[#18d4ff] bg-clip-text text-[clamp(1.6rem,10vw,3.8rem)] leading-[1.06] text-transparent">
               {dict.hero.title2}
             </span>
           </h1>
@@ -274,7 +307,7 @@ export function HeroCinematic() {
             TANK CONTAINER â€" Wipe transition lives here
         â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
         </div>{/* end header */}
-        <div className="relative mt-2 w-full flex-1 min-h-[280px] max-w-[300px] sm:max-w-[420px] lg:max-w-[560px]">
+        <div className="relative mt-2 w-full flex-1 min-h-[260px] max-w-[280px] sm:min-h-[280px] sm:max-w-[420px] lg:max-w-[560px]">
 
           {/* Ambient glow */}
           <div className="pointer-events-none absolute inset-0 scale-75 rounded-full bg-[radial-gradient(circle,rgba(49,92,255,0.18),transparent_60%)] blur-2xl dark:bg-[radial-gradient(circle,rgba(49,92,255,0.28),transparent_60%)]" />
@@ -337,7 +370,7 @@ export function HeroCinematic() {
           </motion.div>
 
           {/* â"€â"€ Wipe scan line + glow â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ */}
-          {isWiping && !prefersReduced && (
+          {isWiping && !reducedMotion && (
             <motion.div
               key={`wipe-${step}`}
               className="pointer-events-none absolute inset-x-[-12%] z-20"
@@ -377,7 +410,7 @@ export function HeroCinematic() {
           )}
 
           {/* â"€â"€ Idle scan loop (when NOT wiping) â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ */}
-          {!isWiping && !prefersReduced && (
+          {!isWiping && !reducedMotion && (
             <>
               <motion.div
                 className="pointer-events-none absolute inset-x-[-6%] h-16 z-10"
@@ -422,13 +455,13 @@ export function HeroCinematic() {
 
           {/* Spec badges */}
           <div className="absolute left-[calc(100%+1.5rem)] top-[22%] hidden lg:block">
-            <SpecBadge icon={BadgeCheck}  label="CE / PED"  sub="EU Certified"      delay={1.4} reduced={!!prefersReduced} />
+            <SpecBadge icon={BadgeCheck}  label="CE / PED"  sub="EU Certified"      delay={1.4} reduced={reducedMotion} />
           </div>
           <div className="absolute right-[calc(100%+1.5rem)] top-[26%] hidden lg:block">
-            <SpecBadge icon={ShieldCheck} label="ISO 16528" sub="International Std" delay={1.6} reduced={!!prefersReduced} />
+            <SpecBadge icon={ShieldCheck} label="ISO 16528" sub="International Std" delay={1.6} reduced={reducedMotion} />
           </div>
           <div className="absolute bottom-[34%] right-[calc(100%+1.5rem)] hidden lg:block">
-            <SpecBadge icon={Gauge}       label="48 BAR"    sub="Working Pressure"  delay={1.8} reduced={!!prefersReduced} />
+            <SpecBadge icon={Gauge}       label="48 BAR"    sub="Working Pressure"  delay={1.8} reduced={reducedMotion} />
           </div>
         </div>
 
@@ -436,9 +469,9 @@ export function HeroCinematic() {
 
       {/* Scroll indicator */}
       <motion.div
-        initial={prefersReduced ? false : { opacity: 0 }}
+        initial={reducedMotion ? false : { opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={prefersReduced ? {} : { delay: 2.2, duration: 0.7, ease: EASE }}
+        transition={reducedMotion ? {} : { delay: 2.2, duration: 0.7, ease: EASE }}
         className="absolute bottom-8 left-1/2 flex -translate-x-1/2 flex-col items-center gap-2"
       >
         <span className="font-mono text-[8px] uppercase tracking-[0.26em] text-muted-foreground/60 dark:text-white/25">Scroll</span>

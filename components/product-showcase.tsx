@@ -1,9 +1,9 @@
 "use client"
 
-import { useState, useCallback, useRef, useEffect } from "react"
+import { useState, useRef, useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { motion, AnimatePresence, useMotionValue, useTransform, useSpring } from "framer-motion"
+import { motion, AnimatePresence, useMotionValue, useTransform, useSpring, useReducedMotion } from "framer-motion"
 import { ArrowRight, MessageCircle, ChevronLeft, ChevronRight, Zap, Shield, Gauge, Ruler } from "lucide-react"
 import {
   showcaseProducts,
@@ -27,7 +27,7 @@ const colorAccent: Record<string, string> = {
 }
 
 // ── Magnetic button ────────────────────────────────────
-function MagneticButton({ children, className, ...props }: React.ComponentProps<"div">) {
+function MagneticButton({ children, className }: { children: React.ReactNode; className?: string }) {
   const ref = useRef<HTMLDivElement>(null)
   const x = useMotionValue(0)
   const y = useMotionValue(0)
@@ -41,7 +41,7 @@ function MagneticButton({ children, className, ...props }: React.ComponentProps<
   }
   const reset = () => { x.set(0); y.set(0) }
   return (
-    <motion.div ref={ref} style={{ x: sx, y: sy }} onMouseMove={handleMove} onMouseLeave={reset} className={className} {...(props as any)}>
+    <motion.div ref={ref} style={{ x: sx, y: sy }} onMouseMove={handleMove} onMouseLeave={reset} className={className}>
       {children}
     </motion.div>
   )
@@ -52,10 +52,10 @@ function SpecPill({ icon: Icon, label, value, accent }: {
   icon: React.ElementType; label: string; value: string; accent: string
 }) {
   return (
-    <div className="flex items-center gap-2 rounded-full border border-border/50 bg-background/80 px-3 py-1.5 backdrop-blur dark:border-white/10 dark:bg-white/5">
+    <div className="flex min-w-0 items-center gap-2 rounded-full border border-border/50 bg-background/80 px-3 py-1.5 backdrop-blur dark:border-white/10 dark:bg-white/5">
       <Icon className="size-3.5 shrink-0" style={{ color: accent }} />
-      <span className="font-mono text-[9px] uppercase tracking-widest text-muted-foreground dark:text-white/50">{label}</span>
-      <span className="font-mono text-xs font-bold text-foreground dark:text-white/90">{value}</span>
+      <span className="min-w-0 font-mono text-[8px] uppercase tracking-[0.14em] text-muted-foreground dark:text-white/50 sm:text-[9px] sm:tracking-widest">{label}</span>
+      <span className="min-w-0 break-words font-mono text-[11px] font-bold text-foreground dark:text-white/90 sm:text-xs">{value}</span>
     </div>
   )
 }
@@ -120,6 +120,9 @@ export function ProductShowcase() {
   const { locale, dict } = useI18n()
   const isAr = locale === "ar"
   const s = dict.showcase
+  const prefersReduced = useReducedMotion()
+  const [isMobile, setIsMobile] = useState(false)
+  const reducedMotion = Boolean(prefersReduced || isMobile)
 
   const orientationFilters = [
     { value: "all",        label: s.filters.all        },
@@ -153,6 +156,14 @@ export function ProductShowcase() {
   const VARIANT_WIPE_DUR = 0.75
   const VARIANT_HOLD_MS  = 3200
 
+  useEffect(() => {
+    const query = window.matchMedia("(max-width: 767px)")
+    const sync = () => setIsMobile(query.matches)
+    sync()
+    query.addEventListener("change", sync)
+    return () => query.removeEventListener("change", sync)
+  }, [])
+
   const filtered  = filterProducts(showcaseProducts, capacityFilter, orientationFilter, finishFilter)
   const safeIndex = Math.min(activeIndex, filtered.length - 1)
   const product   = filtered[safeIndex] ?? showcaseProducts[0]
@@ -166,27 +177,35 @@ export function ProductShowcase() {
   const isHorizontal   = product.orientation === "horizontal"
   const curFinish      = variantImages[curVariant]?.includes("galvanized") ? "galvanized" : product.finish
 
-  const prev = useCallback(() => { setActiveIndex((i) => (i - 1 + filtered.length) % filtered.length); setAutoKey((k) => k + 1) }, [filtered.length])
-  const next = useCallback(() => { setActiveIndex((i) => (i + 1) % filtered.length); setAutoKey((k) => k + 1) }, [filtered.length])
+  const prev = () => { setActiveIndex((i) => (i - 1 + filtered.length) % filtered.length); setAutoKey((k) => k + 1) }
+  const next = () => { setActiveIndex((i) => (i + 1) % filtered.length); setAutoKey((k) => k + 1) }
 
   useEffect(() => {
+    if (reducedMotion) return
     if (hovering) return
     const id = setTimeout(() => {
       setActiveIndex((i) => (i + 1) % filtered.length)
       setAutoKey((k) => k + 1)
     }, 3000)
     return () => clearTimeout(id)
-  }, [autoKey, hovering, filtered.length])
+  }, [autoKey, hovering, filtered.length, reducedMotion])
 
   // Reset variant when switching products
-  useEffect(() => { setVariantStep(0); setIsVariantWipe(false) }, [product.id])
+  useEffect(() => {
+    const frame = window.requestAnimationFrame(() => {
+      setVariantStep(0)
+      setIsVariantWipe(false)
+    })
+    return () => window.cancelAnimationFrame(frame)
+  }, [product.id])
 
   // Auto-cycle variants for multi-image products
   useEffect(() => {
+    if (reducedMotion) return
     if (variantImages.length <= 1 || hovering || isVariantWipe) return
     const t = setTimeout(() => setIsVariantWipe(true), VARIANT_HOLD_MS)
     return () => clearTimeout(t)
-  }, [variantStep, variantImages.length, hovering, isVariantWipe, VARIANT_HOLD_MS])
+  }, [variantStep, variantImages.length, hovering, isVariantWipe, VARIANT_HOLD_MS, reducedMotion])
 
   // Advance variant after wipe completes
   useEffect(() => {
@@ -197,6 +216,7 @@ export function ProductShowcase() {
 
   // Products mascot: appear → stay 7s → disappear → wait 18s → repeat
   useEffect(() => {
+    if (reducedMotion) return
     let t1: ReturnType<typeof setTimeout>
     let t2: ReturnType<typeof setTimeout>
     const cycle = () => {
@@ -208,7 +228,7 @@ export function ProductShowcase() {
     }
     t1 = setTimeout(cycle, 2000)
     return () => { clearTimeout(t1); clearTimeout(t2) }
-  }, [])
+  }, [reducedMotion])
 
   const mouseX = useMotionValue(0)
   const mouseY = useMotionValue(0)
@@ -223,7 +243,7 @@ export function ProductShowcase() {
   const resetMouse = () => { mouseX.set(0); mouseY.set(0) }
 
   return (
-    <section className="relative overflow-hidden py-24 lg:py-32">
+    <section id="products" dir={isAr ? "rtl" : "ltr"} className="relative scroll-mt-28 overflow-hidden py-16 sm:py-20 lg:py-32">
       {/* ── Background ── */}
       <div className="absolute inset-0 bg-background dark:bg-[#06111f]" />
       <div className="absolute inset-0 bg-blueprint opacity-20 dark:opacity-30" />
@@ -233,7 +253,7 @@ export function ProductShowcase() {
       />
 
       {/* Animated blueprint lines */}
-      <svg className="pointer-events-none absolute inset-0 size-full opacity-[0.07] dark:opacity-[0.12]" viewBox="0 0 1200 800" fill="none" aria-hidden>
+      <svg className="pointer-events-none absolute inset-0 hidden size-full opacity-[0.07] dark:opacity-[0.12] md:block" viewBox="0 0 1200 800" fill="none" aria-hidden>
         <defs>
           <linearGradient id="lineGrad" x1="0" x2="1" y1="0" y2="0">
             <stop offset="0%" stopColor="#315cff" stopOpacity="0" />
@@ -283,7 +303,7 @@ export function ProductShowcase() {
         )}
       </AnimatePresence>
 
-      <div className="relative mx-auto max-w-7xl px-6">
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6">
         {/* ── Header ── */}
         <div className="mb-10 flex flex-wrap items-end justify-between gap-6">
           <div>
@@ -291,7 +311,7 @@ export function ProductShowcase() {
               <span className="h-px w-8 bg-[#315cff]" />
               {s.eyebrow}
             </div>
-            <h2 className="font-display text-3xl font-bold leading-tight tracking-tight sm:text-4xl lg:text-5xl whitespace-nowrap">
+            <h2 className="max-w-full text-balance font-display text-[clamp(2.1rem,11vw,3.5rem)] font-bold leading-[1.02] tracking-tight sm:text-4xl lg:text-5xl">
               <span className="title-shine">{s.title1} {s.title2}</span>
             </h2>
           </div>
@@ -332,20 +352,20 @@ export function ProductShowcase() {
 
             <div className="relative overflow-hidden rounded-3xl border border-border/60 bg-card/70 shadow-xl backdrop-blur dark:border-white/10 dark:bg-black/40">
               {/* Top bar */}
-              <div className="flex items-center justify-between border-b border-border/50 px-6 py-3 dark:border-white/8">
-                <div className="flex items-center gap-2">
+              <div className="flex items-center justify-between gap-3 border-b border-border/50 px-4 py-3 dark:border-white/8 sm:px-6">
+                <div className="flex min-w-0 items-center gap-2">
                   <div className="size-2 rounded-full" style={{ background: accent }} />
                   <motion.span
                     key={curFinish}
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ duration: 0.3 }}
-                    className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground dark:text-white/40"
+                    className="truncate font-mono text-[10px] uppercase tracking-widest text-muted-foreground dark:text-white/40"
                   >
                     {product.orientation} · {curFinish}
                   </motion.span>
                 </div>
-                <div className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground/60 dark:text-white/30">
+                <div className="shrink-0 font-mono text-[10px] uppercase tracking-widest text-muted-foreground/60 dark:text-white/30">
                   {product.certification}
                 </div>
               </div>
@@ -363,13 +383,13 @@ export function ProductShowcase() {
               )}
 
               {/* Image area */}
-              <div className="relative flex items-center justify-center px-8 pb-4 pt-16"
+              <div className="relative flex items-center justify-center px-3 pb-4 pt-20 sm:px-8 sm:pt-16"
                 onMouseEnter={() => setHovering(true)} onMouseLeave={() => setHovering(false)}>
 
                 {/* Always-visible spec pills above the tank */}
-                <div className="absolute left-0 right-0 top-4 z-20 flex justify-center gap-3 px-8">
+                <div className="absolute left-0 right-0 top-4 z-20 flex justify-center gap-2 px-3 sm:gap-3 sm:px-8">
                   <AnimatePresence mode="wait">
-                    <motion.div key={`motor-${product.id}`} initial={{ opacity: 0, y: -6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -6 }} transition={{ duration: 0.2 }} className="flex gap-3">
+                    <motion.div key={`motor-${product.id}`} initial={{ opacity: 0, y: -6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -6 }} transition={{ duration: 0.2 }} className="flex max-w-full flex-wrap justify-center gap-2 sm:gap-3">
                       <SpecPill icon={Zap}   label={s.pill_motor} value={product.recommendedMotor} accent={accent} />
                       <SpecPill icon={Ruler} label={s.pill_size}  value={product.dimensions}       accent={accent} />
                     </motion.div>
@@ -377,7 +397,7 @@ export function ProductShowcase() {
                 </div>
 
                 {/* Dimension lines */}
-                <svg className="pointer-events-none absolute inset-0 size-full" viewBox="0 0 600 400" fill="none" aria-hidden>
+                <svg className="pointer-events-none absolute inset-0 hidden size-full sm:block" viewBox="0 0 600 400" fill="none" aria-hidden>
                   <motion.line x1="80" y1="60" x2="520" y2="60"
                     stroke={accent} strokeWidth="0.5" strokeDasharray="4 4" opacity="0.3"
                     initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 1 }} />
@@ -409,8 +429,8 @@ export function ProductShowcase() {
                     >
                       <div className={`relative overflow-hidden rounded-2xl border border-border/40 dark:border-white/10 transition-all duration-300 ${
                         isHorizontal
-                          ? "h-44 w-72 lg:h-56 lg:w-[30rem]"
-                          : "h-80 w-64 lg:h-[30rem] lg:w-[22rem]"
+                          ? "h-40 w-[min(78vw,18rem)] lg:h-56 lg:w-[30rem]"
+                          : "h-72 w-[min(72vw,16rem)] lg:h-[30rem] lg:w-[22rem]"
                       }`}>
 
                         {/* Layer A: incoming variant — slides in from right */}
@@ -508,7 +528,7 @@ export function ProductShowcase() {
               </div>
 
               {/* Bottom info */}
-              <div className="border-t border-border/50 px-6 py-5 dark:border-white/8">
+              <div className="border-t border-border/50 px-4 py-5 dark:border-white/8 sm:px-6">
                 <AnimatePresence mode="wait">
                   <motion.div key={product.id} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -6 }} transition={{ duration: 0.2 }}>
                     <h3 className="font-display text-xl font-bold text-foreground dark:text-white">{isAr ? product.nameAr : product.name}</h3>
@@ -541,10 +561,10 @@ export function ProductShowcase() {
             </div>
 
             {/* Prev / Next */}
-            <button onClick={prev} className="absolute -left-4 top-1/2 -translate-y-1/2 grid size-9 place-items-center rounded-full border border-border/60 bg-card/80 text-foreground/60 backdrop-blur transition hover:text-foreground dark:border-white/10 dark:bg-black/60 dark:text-white/60 dark:hover:text-white">
+            <button onClick={prev} className="absolute left-2 top-1/2 -translate-y-1/2 grid size-9 place-items-center rounded-full border border-border/60 bg-card/80 text-foreground/60 backdrop-blur transition hover:text-foreground dark:border-white/10 dark:bg-black/60 dark:text-white/60 dark:hover:text-white sm:-left-4">
               <ChevronLeft className="size-4" />
             </button>
-            <button onClick={next} className="absolute -right-4 top-1/2 -translate-y-1/2 grid size-9 place-items-center rounded-full border border-border/60 bg-card/80 text-foreground/60 backdrop-blur transition hover:text-foreground dark:border-white/10 dark:bg-black/60 dark:text-white/60 dark:hover:text-white">
+            <button onClick={next} className="absolute right-2 top-1/2 -translate-y-1/2 grid size-9 place-items-center rounded-full border border-border/60 bg-card/80 text-foreground/60 backdrop-blur transition hover:text-foreground dark:border-white/10 dark:bg-black/60 dark:text-white/60 dark:hover:text-white sm:-right-4">
               <ChevronRight className="size-4" />
             </button>
 

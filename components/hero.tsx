@@ -489,6 +489,7 @@ export function HeroMain() {
   /* ── Combo-360 mascot: appear → spin → disappear cycle ── */
   const [combo360, setCombo360] = useState(false)
   useEffect(() => {
+    if (prefersReduced || window.matchMedia("(max-width: 767px)").matches) return
     let t: ReturnType<typeof setTimeout>
     const cycle = () => {
       setCombo360(true)
@@ -499,7 +500,7 @@ export function HeroMain() {
     }
     t = setTimeout(cycle, 3000)
     return () => clearTimeout(t)
-  }, [])
+  }, [prefersReduced])
   const isDark = mounted ? resolvedTheme === "dark" : false
 
   return (
@@ -719,7 +720,7 @@ export function HeroMain() {
                 animate={{ x: 0,   opacity: 1 }}
                 exit={{   x: -220, opacity: 0 }}
                 transition={{ type: "spring", stiffness: 55, damping: 14 }}
-                className="pointer-events-none absolute left-[10%] top-1/2 z-30 -translate-y-1/2"
+                className="pointer-events-none absolute left-[10%] top-1/2 z-30 hidden -translate-y-1/2 md:block"
               >
                 <video
                   src="/mascot/combo360.webm"

@@ -3,7 +3,7 @@
 import { type ComponentType, type SVGProps, useEffect, useMemo, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { AnimatePresence, motion } from "framer-motion"
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion"
 import {
   ArrowRight,
   Award,
@@ -80,9 +80,20 @@ const SOCIAL_LINKS: SocialLink[] = [
 export function DesignLaunchHero() {
   const { locale, dict } = useI18n()
   const [active, setActive] = useState(0)
+  const [isMobile, setIsMobile] = useState(false)
+  const prefersReduced = useReducedMotion()
+  const reducedMotion = Boolean(prefersReduced || isMobile)
   const isAr = locale === "ar"
   const slide = DESIGN_SLIDES[active]
   const progress = ((active + 1) / DESIGN_SLIDES.length) * 100
+
+  useEffect(() => {
+    const query = window.matchMedia("(max-width: 767px)")
+    const sync = () => setIsMobile(query.matches)
+    sync()
+    query.addEventListener("change", sync)
+    return () => query.removeEventListener("change", sync)
+  }, [])
 
   const copy = useMemo(
     () =>
@@ -131,18 +142,20 @@ export function DesignLaunchHero() {
   )
 
   useEffect(() => {
+    if (reducedMotion) return
     const timer = window.setInterval(() => {
       setActive((index) => (index + 1) % DESIGN_SLIDES.length)
     }, 5600)
     return () => window.clearInterval(timer)
-  }, [])
+  }, [reducedMotion])
 
   useEffect(() => {
+    if (isMobile) return
     const timer = window.setTimeout(() => {
       document.getElementById("hero-cinematic")?.scrollIntoView({ behavior: "smooth" })
     }, 7000)
     return () => window.clearTimeout(timer)
-  }, [])
+  }, [isMobile])
 
   const go = (direction: number) => {
     setActive((index) => (index + direction + DESIGN_SLIDES.length) % DESIGN_SLIDES.length)
@@ -156,29 +169,29 @@ export function DesignLaunchHero() {
       <div className="absolute inset-0 bg-[linear-gradient(rgba(32,54,107,.06)_1px,transparent_1px),linear-gradient(90deg,rgba(32,54,107,.06)_1px,transparent_1px)] bg-[size:48px_48px] dark:bg-[linear-gradient(rgba(255,255,255,.055)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.055)_1px,transparent_1px)]" />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_22%,rgba(0,167,255,.24),transparent_48%),linear-gradient(180deg,rgba(255,255,255,.94),rgba(207,241,255,.74)_58%,rgba(235,249,255,.96))] dark:bg-[radial-gradient(ellipse_at_50%_22%,rgba(0,167,255,.18),transparent_48%),linear-gradient(180deg,rgba(4,17,31,.96),rgba(7,30,52,.98)_58%,rgba(4,17,31,.99))]" />
 
-      <div className="relative flex min-h-[100svh] flex-col pt-20">
-        <div className="relative h-[52svh] min-h-[390px] w-full overflow-hidden">
+      <div className="relative flex min-h-[100svh] flex-col pt-28 sm:pt-24 lg:pt-20">
+        <div className="relative h-[44svh] min-h-[280px] w-full overflow-hidden sm:min-h-[340px] lg:h-[52svh] lg:min-h-[390px]">
           <AnimatePresence mode="wait">
             <motion.div
               key={slide.src}
-              initial={{ opacity: 0, scale: 1.06, y: 22 }}
+              initial={reducedMotion ? false : { opacity: 0, scale: 1.04, y: 16 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 1.01, y: -22 }}
-              transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-              className="absolute inset-x-4 bottom-4 top-5 overflow-hidden rounded-[30px] border border-white/65 bg-[#07111f] shadow-2xl shadow-[#315cff]/14 dark:border-white/10"
+              exit={reducedMotion ? { opacity: 0 } : { opacity: 0, scale: 1.01, y: -16 }}
+              transition={reducedMotion ? { duration: 0.18 } : { duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
+              className="absolute inset-x-3 bottom-4 top-4 overflow-hidden rounded-[24px] border border-white/65 bg-[#07111f] shadow-2xl shadow-[#315cff]/14 dark:border-white/10 sm:inset-x-4 sm:top-5 sm:rounded-[30px]"
             >
               <motion.div
                 className="absolute inset-0"
-                initial={{ scale: 1.015 }}
-                animate={{ scale: 1.085 }}
-                transition={{ duration: 6.4, ease: "easeOut" }}
+                initial={reducedMotion ? false : { scale: 1.015 }}
+                animate={reducedMotion ? { scale: 1 } : { scale: 1.07 }}
+                transition={reducedMotion ? {} : { duration: 6.4, ease: "easeOut" }}
               >
                 <Image
                   src={slide.src}
                   alt={slide.alt}
                   fill
                   sizes="100vw"
-                  priority
+                  priority={active === 0}
                   className="object-cover"
                   style={{ objectPosition: slide.focus }}
                 />
@@ -224,16 +237,16 @@ export function DesignLaunchHero() {
           <div className="absolute bottom-0 left-0 h-1 bg-gradient-to-r from-[#315cff] via-[#00a7ff] to-[#18d4ff] transition-all duration-700" style={{ width: `${progress}%` }} />
         </div>
 
-        <div className="relative flex flex-1 items-center border-t border-[#c6e4f3]/70 bg-white/28 px-6 py-5 backdrop-blur-sm dark:border-white/10 dark:bg-black/12">
+        <div className="relative flex flex-1 items-center border-t border-[#c6e4f3]/70 bg-white/28 px-4 py-6 backdrop-blur-sm dark:border-white/10 dark:bg-black/12 sm:px-6">
           <div className="mx-auto grid w-full max-w-7xl grid-cols-1 gap-5 lg:grid-cols-[1.04fr_.96fr] lg:items-center">
             <motion.div
-              initial={{ opacity: 0, y: 24 }}
+              initial={reducedMotion ? false : { opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+              transition={reducedMotion ? {} : { duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
             >
-              <h1 className="max-w-4xl font-display text-4xl font-black leading-[0.96] tracking-tight text-[#111b2a] dark:text-white sm:text-5xl">
+              <h1 className="max-w-4xl text-balance font-display text-[clamp(2.25rem,11vw,3.1rem)] font-black leading-[0.98] tracking-tight text-[#111b2a] dark:text-white sm:text-5xl">
                 <span className="block">{copy.titleTop}</span>
-                <span className="mt-1 block text-3xl font-black sm:text-4xl bg-gradient-to-r from-[#315cff] via-[#008dff] to-[#18d4ff] bg-clip-text text-transparent">
+                <span className="mt-1 block bg-gradient-to-r from-[#315cff] via-[#008dff] to-[#18d4ff] bg-clip-text text-[clamp(2rem,10vw,2.6rem)] font-black leading-tight text-transparent sm:text-4xl">
                   {copy.titleAccent}
                 </span>
               </h1>
@@ -241,17 +254,17 @@ export function DesignLaunchHero() {
                 {copy.body}
               </p>
 
-              <div className="mt-5 flex flex-wrap items-center gap-3">
+              <div className="mt-5 flex flex-col items-stretch gap-3 sm:flex-row sm:flex-wrap sm:items-center">
                 <Link
                   href="/request-quote"
-                  className="group inline-flex items-center gap-3 rounded-full bg-gradient-to-r from-[#315cff] to-[#00a7ff] px-7 py-3.5 text-sm font-bold text-white shadow-xl shadow-[#315cff]/20 transition hover:-translate-y-0.5 hover:brightness-110"
+                  className="group inline-flex items-center justify-center gap-3 rounded-full bg-gradient-to-r from-[#315cff] to-[#00a7ff] px-7 py-3.5 text-sm font-bold text-white shadow-xl shadow-[#315cff]/20 transition hover:-translate-y-0.5 hover:brightness-110"
                 >
                   {copy.cta}
                   <ArrowRight className="size-4 transition group-hover:translate-x-1 rtl:group-hover:-translate-x-1" />
                 </Link>
                 <Link
                   href="/contact"
-                  className="inline-flex items-center gap-3 rounded-full border border-[#315cff]/25 bg-white/52 px-7 py-3.5 text-sm font-bold text-[#111b2a] backdrop-blur transition hover:-translate-y-0.5 hover:border-[#315cff]/60 hover:bg-white/76 dark:border-white/12 dark:bg-white/8 dark:text-white dark:hover:bg-white/12"
+                  className="inline-flex items-center justify-center gap-3 rounded-full border border-[#315cff]/25 bg-white/52 px-7 py-3.5 text-sm font-bold text-[#111b2a] backdrop-blur transition hover:-translate-y-0.5 hover:border-[#315cff]/60 hover:bg-white/76 dark:border-white/12 dark:bg-white/8 dark:text-white dark:hover:bg-white/12"
                 >
                   {copy.secondary}
                 </Link>
@@ -275,35 +288,35 @@ export function DesignLaunchHero() {
             </motion.div>
 
             <div className="grid gap-4">
-              <div className="grid grid-cols-3 gap-3">
+              <div className="grid grid-cols-3 gap-2 sm:gap-3">
                 {copy.stats.map(({ value, label, Icon }, index) => (
                   <motion.div
                     key={label}
-                    initial={{ opacity: 0, y: 18 }}
+                    initial={reducedMotion ? false : { opacity: 0, y: 18 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.55, delay: 0.08 * index, ease: [0.16, 1, 0.3, 1] }}
-                    className="rounded-2xl border border-[#c6e4f3]/75 bg-white/58 p-4 shadow-lg shadow-[#315cff]/8 backdrop-blur transition hover:-translate-y-1 hover:border-[#315cff]/35 dark:border-white/10 dark:bg-white/8"
+                    transition={reducedMotion ? {} : { duration: 0.55, delay: 0.08 * index, ease: [0.16, 1, 0.3, 1] }}
+                    className="min-w-0 rounded-2xl border border-[#c6e4f3]/75 bg-white/58 p-3 shadow-lg shadow-[#315cff]/8 backdrop-blur transition hover:-translate-y-1 hover:border-[#315cff]/35 dark:border-white/10 dark:bg-white/8 sm:p-4"
                   >
-                    <div className="mb-3 grid size-9 place-items-center rounded-xl bg-[#315cff]/10 text-[#315cff] dark:bg-white/8 dark:text-[#8eb8ff]">
+                    <div className="mb-3 grid size-8 place-items-center rounded-xl bg-[#315cff]/10 text-[#315cff] dark:bg-white/8 dark:text-[#8eb8ff] sm:size-9">
                       <Icon className="size-4" />
                     </div>
-                    <div className="font-display text-3xl font-black leading-none text-[#315cff] dark:text-[#8eb8ff]">{value}</div>
-                    <div className="mt-2 text-xs font-bold leading-5 text-[#526173] dark:text-white/58">{label}</div>
+                    <div className="break-words font-display text-[clamp(1.65rem,7.2vw,3rem)] font-black leading-none text-[#315cff] dark:text-[#8eb8ff] sm:text-3xl">{value}</div>
+                    <div className="mt-2 break-words text-[10px] font-bold leading-4 text-[#526173] dark:text-white/58 sm:text-xs sm:leading-5">{label}</div>
                   </motion.div>
                 ))}
               </div>
 
               <motion.div
-                initial={{ opacity: 0, y: 22 }}
+                initial={reducedMotion ? false : { opacity: 0, y: 22 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.65, delay: 0.12, ease: [0.16, 1, 0.3, 1] }}
+                transition={reducedMotion ? {} : { duration: 0.65, delay: 0.12, ease: [0.16, 1, 0.3, 1] }}
                 className="rounded-3xl border border-[#c6e4f3]/75 bg-white/58 p-4 shadow-xl shadow-[#315cff]/8 backdrop-blur dark:border-white/10 dark:bg-white/8"
               >
-                <div className="mb-4 flex items-center gap-3 text-base font-black">
+                <div className="mb-4 flex items-start gap-3 text-base font-black leading-6">
                   <CheckCircle2 className="size-5 text-[#00a7ff]" />
                   {copy.proof}
                 </div>
-                <div className="grid gap-3 lg:grid-cols-3">
+                <div className="grid gap-3 sm:grid-cols-3">
                   {copy.steps.map(([title, body], index) => {
                     const Icon = [ShieldCheck, DraftingCompass, FileCheck2][index] ?? BadgeCheck
                     return (
