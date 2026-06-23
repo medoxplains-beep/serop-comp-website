@@ -23,7 +23,7 @@ export default async function AboutPage() {
     { icon: Award, title: dict.about.values.values_title, desc: dict.about.values.values_desc },
   ]
   const milestones = [
-    { year: "2009", title: dict.about.milestones.y2009_title, desc: dict.about.milestones.y2009_desc },
+    { year: "2017", title: dict.about.milestones.y2009_title, desc: dict.about.milestones.y2009_desc },
     { year: "2014", title: dict.about.milestones.y2014_title, desc: dict.about.milestones.y2014_desc },
     { year: "2021", title: dict.about.milestones.y2021_title, desc: dict.about.milestones.y2021_desc },
     { year: "2024", title: dict.about.milestones.y2024_title, desc: dict.about.milestones.y2024_desc },

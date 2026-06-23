@@ -1,11 +1,11 @@
 export const en = {
   hero: {
-    badge: "Since 2009 · 15 Years of Trusted Manufacturing",
+    badge: "Since 2017 · 9 Years of Trusted Manufacturing",
     title1: "SEROP COMP",
     title2: "The Value of Quality",
     title3: "Your Tank, Your Way",
     description:
-      "Tested to 63 bar. Certified to CE/PED and ISO 16528. Built in Egypt, trusted by industrial buyers across three continents — since 2009.",
+      "Tested to 63 bar. Certified to CE/PED and ISO 16528. Built in Egypt, trusted by industrial buyers across three continents — since 2017.",
     description_main:
       "From 50 L to 10,000 L, we engineer every pressure vessel to your exact specification — custom-built, hydrostatically tested, and certified before it ships.",
     cta_quote: "Request a Quote",
@@ -218,7 +218,7 @@ export const en = {
   footer: {
     tagline: "Value of Quality",
     description:
-      "SEROP COMP is an Egyptian manufacturer of compressed air tanks and pressure vessels, established in 2009 and certified for quality, pressure-vessel compliance, and export-ready documentation.",
+      "SEROP COMP is an Egyptian manufacturer of compressed air tanks and pressure vessels, established in 2017 and certified for quality, pressure-vessel compliance, and export-ready documentation.",
     products_title: "Products",
     products: {
       vertical: "Vertical Air Tanks",
@@ -238,21 +238,21 @@ export const en = {
   about: {
     meta_title: "About Us",
     meta_desc:
-      "SEROP COMP is an Egyptian manufacturer of compressed air tanks and pressure vessels, established in 2009 in 10th of Ramadan City.",
+      "SEROP COMP is an Egyptian manufacturer of compressed air tanks and pressure vessels, established in 2017 in 10th of Ramadan City.",
     hero_eyebrow: "About SEROP COMP",
-    hero_title: "Egyptian pressure-vessel manufacturing since 2009",
+    hero_title: "Egyptian pressure-vessel manufacturing since 2017",
     hero_desc:
       "SEROP COMP manufactures certified compressed air tanks and pressure vessels for factories, contractors, distributors, and export clients across industrial markets.",
     story_eyebrow: "Our Story",
     story_title: "Built around quality, safety, and engineering support.",
     story_p1:
-      "SEROP COMP was established in 2009 in the industrial zone of 10th of Ramadan City, Egypt, to manufacture reliable compressed air tanks and pressure vessels for industrial applications.",
+      "SEROP COMP was established in 2017 in the industrial zone of 10th of Ramadan City, Egypt, to manufacture reliable compressed air tanks and pressure vessels for industrial applications.",
     story_p2:
       "Our production covers carbon-steel and stainless-steel vessels in vertical, horizontal, galvanized, painted, oil-free, vacuum, high-pressure, and oversized configurations up to 10,000 liters.",
     story_p3:
       "Every project is handled with practical engineering support, controlled manufacturing, pressure testing, and documentation that helps customers install, operate, and export with confidence.",
     points: {
-      experience: "Established in 2009",
+      experience: "Established in 2017",
       markets: "12+ active export markets",
       certified: "ISO 9001 / ISO 16528 / CE-PED certified",
       team: "Engineering support from design to delivery",
@@ -377,7 +377,7 @@ export const en = {
     meta_title: "Contact Us",
     meta_desc: "Reach SEROP COMP sales, engineering, and export teams.",
     hero_eyebrow: "Contact",
-    hero_title: "Talk to the team behind the tank.",
+    hero_title: "How can we help you today?",
     hero_desc:
       "Send your technical requirements, quotation request, or export inquiry. Our team will respond with clear next steps.",
     channels: {

@@ -104,11 +104,11 @@ export function DesignLaunchHero() {
             body:
               "من التصميم الهندسي إلى الاختبار والتسليم، نصنع خزانات ضغط وهواء مضغوط تحمل اعتمادا أوروبيا، جودة موثقة، وحضورا يليق بالمشروعات الصناعية داخل مصر وخارجها.",
             cta: dict.cta.primary,
-            secondary: "تواصل مع الهندسة",
+            secondary: "تواصل معنا",
             proof: "كل تفصيلة في التصميم تقود العميل إلى قرار أوضح",
             scroll: "اكمل التصفح",
             stats: [
-              { value: "2009", label: "سنة التأسيس", Icon: CalendarDays },
+              { value: "2017", label: "سنة التأسيس", Icon: CalendarDays },
               { value: "CE", label: "شهادات أوروبية", Icon: Award },
               { value: "Global", label: "تصدير لكل العالم", Icon: Globe2 },
             ],
@@ -128,7 +128,7 @@ export function DesignLaunchHero() {
             proof: "Every visual detail moves the client toward a clearer decision",
             scroll: "Keep scrolling",
             stats: [
-              { value: "2009", label: "Established", Icon: CalendarDays },
+              { value: "2017", label: "Established", Icon: CalendarDays },
               { value: "CE", label: "European certificates", Icon: Award },
               { value: "Global", label: "Worldwide export", Icon: Globe2 },
             ],
@@ -295,9 +295,9 @@ export function DesignLaunchHero() {
                     initial={reducedMotion ? false : { opacity: 0, y: 18 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={reducedMotion ? {} : { duration: 0.55, delay: 0.08 * index, ease: [0.16, 1, 0.3, 1] }}
-                    className="min-w-0 rounded-2xl border border-[#c6e4f3]/75 bg-white/58 p-3 shadow-lg shadow-[#315cff]/8 backdrop-blur transition hover:-translate-y-1 hover:border-[#315cff]/35 dark:border-white/10 dark:bg-white/8 sm:p-4"
+                    className="min-w-0 rounded-2xl border border-[#c6e4f3]/75 bg-white/58 p-3 text-center shadow-lg shadow-[#315cff]/8 backdrop-blur transition hover:-translate-y-1 hover:border-[#315cff]/35 dark:border-white/10 dark:bg-white/8 sm:p-4"
                   >
-                    <div className="mb-3 grid size-8 place-items-center rounded-xl bg-[#315cff]/10 text-[#315cff] dark:bg-white/8 dark:text-[#8eb8ff] sm:size-9">
+                    <div className="mb-3 mx-auto grid size-8 place-items-center rounded-xl bg-[#315cff]/10 text-[#315cff] dark:bg-white/8 dark:text-[#8eb8ff] sm:size-9">
                       <Icon className="size-4" />
                     </div>
                     <div className="break-words font-display text-[clamp(1.65rem,7.2vw,3rem)] font-black leading-none text-[#315cff] dark:text-[#8eb8ff] sm:text-3xl">{value}</div>
@@ -320,8 +320,8 @@ export function DesignLaunchHero() {
                   {copy.steps.map(([title, body], index) => {
                     const Icon = [ShieldCheck, DraftingCompass, FileCheck2][index] ?? BadgeCheck
                     return (
-                      <div key={title} className="rounded-2xl border border-[#c6e4f3]/55 bg-white/46 p-3 transition hover:border-[#315cff]/35 dark:border-white/10 dark:bg-black/12">
-                        <div className="mb-2 grid size-9 place-items-center rounded-xl bg-[#315cff]/10 text-[#315cff] dark:bg-white/8 dark:text-[#8eb8ff]">
+                      <div key={title} className="rounded-2xl border border-[#c6e4f3]/55 bg-white/46 p-3 text-center transition hover:border-[#315cff]/35 dark:border-white/10 dark:bg-black/12">
+                        <div className="mb-2 mx-auto grid size-9 place-items-center rounded-xl bg-[#315cff]/10 text-[#315cff] dark:bg-white/8 dark:text-[#8eb8ff]">
                           <Icon className="size-4" />
                         </div>
                         <div>

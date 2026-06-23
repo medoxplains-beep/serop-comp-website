@@ -17,7 +17,7 @@ type SlideData = {
 const SLIDES: SlideData[] = [
   {
     src: "/images/gallery/01.webp",
-    eyebrow: "PRESSURE VESSELS · SINCE 2009",
+    eyebrow: "PRESSURE VESSELS · SINCE 2017",
     titleFill: "Engineering",
     titleOutline: "Precision",
     body: "Over 5,000 pressure vessels manufactured — each hydrostatically tested to 1.5× working pressure before it leaves our facility.",
@@ -29,7 +29,7 @@ const SLIDES: SlideData[] = [
     eyebrow: "MADE IN EGYPT · TRUSTED WORLDWIDE",
     titleFill: "Built to",
     titleOutline: "Last",
-    body: "From our factory in Egypt, we supply certified industrial pressure vessels to buyers across three continents — since 2009.",
+    body: "From our factory in Egypt, we supply certified industrial pressure vessels to buyers across three continents — since 2017.",
     stat: "3",
     statLabel: "Continents Served",
   },
@@ -57,7 +57,7 @@ const SLIDES: SlideData[] = [
     titleFill: "Certified.",
     titleOutline: "Trusted.",
     body: "CE/PED and ISO 16528 certified — our vessels meet the highest international standards and ship with full documentation included.",
-    stat: "2009",
+    stat: "2017",
     statLabel: "Founded in Egypt",
   },
 ]

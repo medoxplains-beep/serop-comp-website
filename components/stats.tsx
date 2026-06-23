@@ -6,7 +6,7 @@ import { Activity, Clock, Gauge, Globe2 } from "lucide-react"
 import { useI18n } from "@/components/i18n-provider"
 
 const statsData = [
-  { value: 17,    suffix: "+",    key: "years",     icon: Clock,    color: "#6c8fff" },
+  { value: 9,     suffix: "+",    key: "years",     icon: Clock,    color: "#6c8fff" },
   { value: 12000, suffix: "+",    key: "vessels",   icon: Activity, color: "#00b8ff" },
   { value: 12,    suffix: "+",    key: "countries", icon: Globe2,   color: "#18d4ff" },
   { value: 48,    suffix: " Bar", key: "pressure",  icon: Gauge,    color: "#00e4ff" },

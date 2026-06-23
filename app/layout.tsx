@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     template: "%s | SEROP COMP",
   },
   description:
-    "Egyptian manufacturer of compressed air tanks and pressure vessels, established in 2009 and certified to ISO 9001, ISO 16528, and CE/PED requirements.",
+    "Egyptian manufacturer of compressed air tanks and pressure vessels, established in 2017 and certified to ISO 9001, ISO 16528, and CE/PED requirements.",
   openGraph: {
     title: "SEROP COMP - Certified Air Tanks & Pressure Vessels",
     description:

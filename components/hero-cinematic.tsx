@@ -69,6 +69,7 @@ export function HeroCinematic() {
 
   // â"€â"€ Mascot letter-run state â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
   const [mascotRunning, setMascotRunning] = useState(false)
+  const [titleMascotReady, setTitleMascotReady] = useState(false)
   const [mascotVideoFailed, setMascotVideoFailed] = useState(false)
   const [activeLetter,  setActiveLetter]  = useState(-1)
   const mascotTimers    = useRef<ReturnType<typeof setTimeout>[]>([])
@@ -82,6 +83,7 @@ export function HeroCinematic() {
     const runOnce = () => {
       clearAll()
       setMascotVideoFailed(false)
+      setTitleMascotReady(false)
       // Measure actual text width â†' stop mascot center at the last "P"
       const cw = titleContainerRef.current?.offsetWidth ?? 700
       setMascotEndX(cw - MASCOT_W / 2)
@@ -155,7 +157,7 @@ export function HeroCinematic() {
         <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-[#06111f] to-transparent" />
       </div>
 
-      <div className="relative z-10 flex w-full flex-1 flex-col items-center px-4 pb-6 pt-24 text-center sm:px-6">
+      <div className="relative z-10 flex w-full max-w-full flex-1 flex-col items-center px-4 pb-6 pt-24 text-center sm:px-6">
 
         {/* ── Header block — shrinks to its content, never grows ── */}
         <div className="shrink-0">
@@ -178,11 +180,11 @@ export function HeroCinematic() {
           initial={reducedMotion ? false : { opacity: 0, y: 18, filter: "blur(8px)" }}
           animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
           transition={reducedMotion ? {} : { delay: 0.7, duration: 1.0, ease: EASE }}
-          className="mb-3 flex items-center justify-center gap-3 sm:gap-5"
+          className="mb-3 flex max-w-full items-center justify-center gap-2 sm:gap-5"
         >
-          <div className="h-px w-12 bg-gradient-to-r from-transparent to-[#315cff]/70 sm:w-20" />
+          <div className="h-px w-8 bg-gradient-to-r from-transparent to-[#315cff]/70 sm:w-20" />
           <motion.span
-            className="font-display text-[clamp(1.35rem,8vw,2.8rem)] font-black uppercase leading-none tracking-[0.18em] sm:tracking-[0.28em]"
+            className="font-display text-[clamp(1.15rem,7.2vw,2.8rem)] font-black uppercase leading-none tracking-[0.14em] sm:tracking-[0.28em]"
             animate={reducedMotion ? {} : {
               opacity: [1, 0.18, 1, 0.22, 1, 0.15, 1],
               filter: [
@@ -209,7 +211,7 @@ export function HeroCinematic() {
           >
             Welcome
           </motion.span>
-          <div className="h-px w-12 bg-gradient-to-l from-transparent to-[#315cff]/70 sm:w-20" />
+          <div className="h-px w-8 bg-gradient-to-l from-transparent to-[#315cff]/70 sm:w-20" />
         </motion.div>
 
         {/* â"€â"€ Title â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ */}
@@ -221,8 +223,8 @@ export function HeroCinematic() {
           <h1 className="font-display font-black tracking-tight">
 
             {/* â"€â"€ "SEROP COMP" â€" mascot runs in front of these letters â"€â"€ */}
-            <div ref={titleContainerRef} className="relative inline-block" dir="ltr">
-              <span className="block whitespace-nowrap text-[clamp(2.1rem,15vw,8.5rem)] leading-[0.93] text-foreground dark:text-white">
+            <div ref={titleContainerRef} className="relative inline-block max-w-full" dir="ltr">
+              <span className="block whitespace-nowrap text-[clamp(2rem,10.6vw,3rem)] leading-[0.94] text-foreground dark:text-white sm:text-[clamp(3.1rem,11vw,8.5rem)]">
                 {SEROP_LETTERS.map((char, i) => (
                   <motion.span
                     key={i}
@@ -260,31 +262,27 @@ export function HeroCinematic() {
                     exit={{ opacity: 0 }}
                     transition={{ duration: 7, ease: "linear" }}
                   >
-                    {mascotVideoFailed ? (
-                      <Image
-                        src="/mascot/walk2-poster.jpg"
-                        alt=""
-                        fill
-                        sizes={`${MASCOT_W}px`}
-                        className="object-contain mix-blend-screen"
-                        priority={false}
-                      />
-                    ) : (
+                    {!mascotVideoFailed && (
                       <video
                         autoPlay
                         muted
                         playsInline
                         loop
                         preload="metadata"
-                        poster="/mascot/walk2-poster.jpg"
                         aria-hidden="true"
-                        onError={() => setMascotVideoFailed(true)}
+                        onCanPlay={() => setTitleMascotReady(true)}
+                        onLoadedData={() => setTitleMascotReady(true)}
+                        onError={() => {
+                          setMascotVideoFailed(true)
+                          setTitleMascotReady(false)
+                        }}
                         style={{
                           width: "100%",
                           height: "100%",
                           objectFit: "contain",
                           filter: "brightness(1.45) contrast(1.05)",
                           mixBlendMode: "screen",
+                          opacity: titleMascotReady ? 1 : 0,
                         }}
                       >
                         <source src="/mascot/walk2.webm" type="video/webm" />
@@ -296,7 +294,7 @@ export function HeroCinematic() {
               </AnimatePresence>
             </div>
 
-            <span dir="ltr" className="mx-auto mt-1 block max-w-[min(92vw,820px)] bg-gradient-to-r from-[#315cff] via-[#00b8ff] to-[#18d4ff] bg-clip-text text-[clamp(1.6rem,10vw,3.8rem)] leading-[1.06] text-transparent">
+            <span dir="ltr" className="mx-auto mt-1 block max-w-[min(92vw,820px)] bg-gradient-to-r from-[#315cff] via-[#00b8ff] to-[#18d4ff] bg-clip-text text-[clamp(1.85rem,9.2vw,3.2rem)] leading-[1.06] text-transparent sm:text-[clamp(2.4rem,7vw,3.8rem)]">
               {dict.hero.title2}
             </span>
           </h1>
