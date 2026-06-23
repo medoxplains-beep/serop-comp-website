@@ -3,7 +3,7 @@
 import { useState } from "react"
 
 const SCRIPT_URL =
-  "https://script.google.com/macros/s/AKfycbxlPtT64oW3Wh8TcRy6LR9lFtHvg0BqBNbIYZGFYYokms6RVsbUTIF8K4RnWQ7KzV-p/exec"
+  "https://script.google.com/macros/s/AKfycbxzFFi9Q6wJwkPx_l4Ng77K2zW34FcubkG_EjPKA8zyUqt6bJfIfVyxo6YWPdWjjsmb/exec"
 
 export default function LeadPage() {
   const [name, setName]   = useState("")
