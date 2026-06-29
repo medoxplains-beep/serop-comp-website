@@ -41,7 +41,7 @@ const DESIGN_SLIDES: DesignSlide[] = [
   {
     src: "/images/designs/engineering-design-new-02.webp",
     alt: "SEROP COMP factory and product range",
-    focus: "center 50%",
+    focus: "center 75%",
   },
 ]
 
