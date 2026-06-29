@@ -34,18 +34,13 @@ type SocialLink = {
 
 const DESIGN_SLIDES: DesignSlide[] = [
   {
-    src: "/images/designs/engineering-design-01.webp",
-    alt: "SEROP COMP red horizontal receiver export concept",
+    src: "/images/designs/engineering-design-new-01.webp",
+    alt: "SEROP COMP pressure vessels export by sea",
     focus: "center 50%",
   },
   {
-    src: "/images/designs/engineering-design-02.webp",
-    alt: "SEROP COMP factory engineering concept",
-    focus: "center 54%",
-  },
-  {
-    src: "/images/designs/engineering-design-03.webp",
-    alt: "SEROP COMP workshop quality inspection concept",
+    src: "/images/designs/engineering-design-new-02.webp",
+    alt: "SEROP COMP factory and product range",
     focus: "center 50%",
   },
 ]

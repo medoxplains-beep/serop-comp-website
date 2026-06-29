@@ -214,7 +214,7 @@ export const ar: Dictionary = {
     description:
       "أرسل السعة والضغط والتشطيب وتوزيع المخارج المطلوب، وسيقوم فريقنا الهندسي بالمراجعة وتجهيز عرض واضح.",
     primary: "طلب عرض سعر",
-    secondary: "تواصل مع الهندسة",
+    secondary: "تواصل معنا",
   },
 
   footer: {
@@ -386,7 +386,7 @@ export const ar: Dictionary = {
       email: "البريد الإلكتروني",
       phone: "الهاتف",
       whatsapp: "واتساب",
-      whatsapp_value: "تواصل مع الهندسة",
+      whatsapp_value: "تواصل معنا",
       address: "العنوان",
       address_value: "قطعة رقم 116، المنطقة الصناعية A4، مدينة العاشر من رمضان، الشرقية، مصر",
       hours: "ساعات العمل",
@@ -396,7 +396,7 @@ export const ar: Dictionary = {
 
   quoteForm: {
     eyebrow: "طلب عرض سعر",
-    title: "أرسل المواصفة إلى الفريق الهندسي",
+    title: "أرسل رسالتك وسيرد عليك فريق الدعم",
     description:
       "شاركنا السعة والضغط والتشطيب والكمية وأي رسومات، وسنراجع الطلب ونرد بعرض سعر.",
     fields: {
